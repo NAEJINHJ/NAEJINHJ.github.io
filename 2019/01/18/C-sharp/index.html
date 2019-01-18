@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+
+    
+
+    
+    <title>고 &amp; 스톱 | NA&#39;rchive</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <meta name="keywords" content="Project,C#,game">
+    
+    <meta name="description" content="[목차]      1. HOME    2. HOW TO    3. GAME PLAY    4. GO STOP    5. SCORE    특이 사항            1. HOME                  [START button]            MouseMove 이벤트:      버튼에 마우스 올리면, 웃고 있는 캐릭터 이미지로 변경">
+<meta name="keywords" content="Project,C#,game">
+<meta property="og:type" content="article">
+<meta property="og:title" content="고 &amp; 스톱">
+<meta property="og:url" content="https://NAEJINHJ.github.com/2019/01/18/C-sharp/index.html">
+<meta property="og:site_name" content="NA&#39;rchive">
+<meta property="og:description" content="[목차]      1. HOME    2. HOW TO    3. GAME PLAY    4. GO STOP    5. SCORE    특이 사항            1. HOME                  [START button]            MouseMove 이벤트:      버튼에 마우스 올리면, 웃고 있는 캐릭터 이미지로 변경">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://naejinhj.github.com/image/gostop/main.PNG">
+<meta property="og:updated_time" content="2019-01-18T08:26:59.914Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="고 &amp; 스톱">
+<meta name="twitter:description" content="[목차]      1. HOME    2. HOW TO    3. GAME PLAY    4. GO STOP    5. SCORE    특이 사항            1. HOME                  [START button]            MouseMove 이벤트:      버튼에 마우스 올리면, 웃고 있는 캐릭터 이미지로 변경">
+<meta name="twitter:image" content="https://naejinhj.github.com/image/gostop/main.PNG">
+    
+
+    
+
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/titillium-web/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/3.3.1/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+    
+
+
+</head>
+</html>
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                  <h1 class="logo-wrap">
+                     <a href="/" class="logo"></a>
+                 </h1>
+                 
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item">
+                                    <a class="main-nav-list-link" href="/">Home</a>
+                                </li>
+                            
+                                        <ul class="main-nav-list"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/BIGDATA/">BIGDATA</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/BIGDATA/Machine-Learning/">Machine Learning</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/BIGDATA/Modeling/">Modeling</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Kaggle/">Kaggle</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/LOG/">LOG</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Project/">Project</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Project/BIGDATA/">BIGDATA</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Project/C/">C#</a></li></ul></li></ul>
+                                    
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something...">
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/Project/">Project</a><i class="icon fa fa-angle-right"></i><a class="page-title-link" href="/categories/Project/C/">C#</a>
+    </h1>
+</div>
+
+                        <div class="main-body-content">
+                            <article id="post-C-sharp" class="article article-single article-type-post" itemscope="" itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        고 &amp; 스톱
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+    <div class="article-date">
+        <a href="/2019/01/18/C-sharp/" class="article-date">
+            <time datetime="2019-01-18T02:09:10.727Z" itemprop="datePublished">2019-01-18</time>
+        </a>
+    </div>
+
+		
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/C/">C#</a>, <a class="tag-link" href="/tags/Project/">Project</a>, <a class="tag-link" href="/tags/game/">game</a>
+    </div>
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            <p><img src="/image/gostop/main.PNG" width="1200px"></p>
+<p><hr><br><img src="/image/gostop/summary.PNG" width="800px"></p>
+<p><hr></p>
+<div style="background-color:rgba(0, 0, 0, 0.0470588); text-align:center; vertical-align: middle; padding:30px 0;"><br>  <font size="4" color="purple"><b>[목차]</b></font><br>  <font size="4"><br>    <a href="#section1">1. HOME</a><br>    <a href="#section2">2. HOW TO</a><br>    <a href="#section3">3. GAME PLAY</a><br>    <a href="#section4">4. GO STOP</a><br>    <a href="#section5">5. SCORE</a><br>    <a href="#section6">특이 사항</a><br>  </font><br></div><br><hr><br><div style="background-color:rgba(0, 0, 0, 0.0470588); text-align:center; vertical-align: middle; padding:5px 0;"><br>  <font size="3" color="gray"><br>    <div id="section1"><br>    <font size="5"><b>1. HOME</b></font><br>    <br><br>    <img src="/image/gostop/home.PNG" width="800px"><br>    <div style="background-color:rgba(145, 60, 189, 0.3); text-align:center; vertical-align: middle; padding:5px 0;"><br>      <font color="purple" size="4"><b>[START button]</b></font><br>      <br><br>      <b>MouseMove 이벤트</b>:<br>      버튼에 마우스 올리면, 웃고 있는 캐릭터 이미지로 변경<br>      <b>MouseLeave 이벤트</b>:<br>      마우스가 버튼 밖으로 벗어나면, 다시 원래의 이미지로 돌아감<br>      <b>Click 이벤트</b>:<br>       <b>게임 플레이 화면</b>으로 전환<br>      <hr><br>      <font color="purple" size="4"><b>[HowTo button]</b></font><br>      <br><br>      <b>MouseMove 이벤트</b>:<br>      버튼에 마우스 올리면, 웃고 있는 캐릭터 이미지로 변경<br>      <b>MouseLeave 이벤트</b>:<br>      마우스가 버튼 밖으로 벗어나면, 다시 원래의 이미지로 돌아감<br>      <b>Click 이벤트</b>:<br>       <b>게임 룰 설명 화면</b>으로 전환<br>      <hr><br>      <font color="purple" size="4"><b>[화면 전환 방식]</b></font><br>      <br><br>      1) HOME 폼을 <b>숨김</b><br>      2) 실행하고 싶은 폼의 <b>객체 생성</b>하여 실행 시킴<br>      3) HOME 폼 <b>닫음</b><br>      <br><br>    </div><br>    <hr><br>    <div id="section2"><br>    <font size="5"><b>2. HOW TO</b></font><br>    <br><br>    <img src="/image/gostop/howto.PNG" width="800px"><br>    <div style="background-color:rgba(145, 60, 189, 0.3); text-align:center; vertical-align: middle; padding:5px 0;"><br>      <font color="purple" size="4"><b>[룰 설명]</b></font><br>      이미지로 제작, <b>backgroundimage</b>로 설정<br>      <hr><br>      <font color="purple" size="4"><b>[Click 이벤트]</b></font><br>      <b>화살표 버튼 클릭</b> 시, 다시 <b>홈 화면으로 전환<b><br>      <br><br>    </b></b></div><br>    <hr><br>    <div id="section3"><br>    <font size="5"><b>3. GAME PLAY</b></font><br>    <br><br>    <img src="/image/gostop/gameplay1.PNG" width="800px"><br>    <div style="background-color:rgba(145, 60, 189, 0.3); text-align:center; vertical-align: middle; padding:5px 0;"><br>      총 <b>5개의 패널</b>로 구성<br>      <hr><br>      <font color="purple" size="4"><b>[computerCardPanel]</b></font><br>      <br><br>      위에서 부터 <b>컴퓨터 패</b>를 놓음<br>      <hr><br>      <font color="purple" size="4"><b>[computerScorePanel]</b></font><br>      <br><br>      컴퓨터가 <b>얻은 카드</b> 순서대로 정렬<br>      <b>점수</b> 출력<br>      <b>GO를 한 횟수</b>를 출력<br>      <hr><br>      <font color="purple" size="4"><b>[playPanel]</b></font><br>      <br><br>      실제 <b>게임의 필드(바닥)</b>에 해당하는 패널<br>      <hr><br>      <font color="purple" size="4"><b>[UserScorePanel]</b></font><br>      <br><br>      유저가 <b>얻은 카드</b> 순서대로 정렬<br>      <b>점수</b> 출력<br>      <b>GO를 한 횟수</b>를 출력<br>      <hr><br>      <font color="purple" size="4"><b>[UserCardPanel]</b></font><br>      <br><br>      <b>유저의 카드 패</b>를 놓음<br>      카드 패는 <b>버튼으로 구성</b><br>      <hr><br>      <font color="purple" size="4"><b>[Card Setting]</b></font><br>      <br><br>      <b>카드 클래스</b> 구현<br>      생성자에서 카드의 인덱스, 이미지, 월과 가치 값 세팅<br>      <br><br>      <b>크기 48의 클래스 배열</b> 생성<br>      카드를 순서대로 저장시킨 뒤, 랜덤하게 섞어줌<br>      <br><br>      <b>분배</b><br>      0~9 : 유저의 카드패<br>      10~ 19 : 컴퓨터의 카드패<br>      20 ~ 27: 필드에 깔리는 카드<br>      28 ~ 47: 뒤집어져 있는 카드 더미<br>      <hr><br>      <font color="purple" size="4"><b>[이미지 예외 처리]</b></font><br>      <br><br>      이미지 세팅 과정에서 <b>필요한 이미지가 존재하지 않을 시</b>,<br>      <b>예외 처리 에러</b> 실행<br>      <br><br>    </div><br>    <img src="/image/gostop/gameplay2.PNG" width="800px"><br>    <div style="background-color:rgba(145, 60, 189, 0.3); text-align:center; vertical-align: middle; padding:5px 0;"><br>      <font color="purple" size="4"><b>[GAME START]</b></font><br>      <br><br>      필드에 카드가 <b>랜덤하게 8장</b> 깔림<br>      <font size="2">(필드에 깔린 카드들은 <b>리스트</b>로 관리)</font><br>      Card Setting 과정에서 분배받은 8장의 카드에 대해,<br>      <b>picturebox 생성</b>하는 식으로 구현<br>      동일한 월을 갖는 카드가 있을 시, 일정한 간격으로 겹쳐지게 함<br>      <font size="2">(각 월마다 기준 좌표가 존재)</font><br>      <hr><br>      <font color="purple" size="4"><b>[User’s Card]</b></font><br>      <br><br>      10개의 버튼(유저패)의 <b>backgroundimage</b><br>      분배받은 카드의 이미지<br>      <br><br>      <b>버튼 클릭</b> 시,<br>      유저가 그 카드를 낸 것으로 간주<br>      해당 버튼의 사용을 금지시키고, 더이상 보이지 않도록 설정<br>      <hr><br>      <font color="purple" size="4"><b>[총통]</b></font><br>      <br><br>      유저 혹은 상대 패에 <b>같은 월의 카드가 4장</b> 있을 시,<br>      <b>총통</b>임을 메시지 박스로 보여주고,<br>      즉시 <b>50점 획득해 승리</b>하도록 함<br>      <br><br>    </div><br>    <img src="/image/gostop/gameplay3.PNG" width="800px"><br>    <div style="background-color:rgba(145, 60, 189, 0.3); text-align:center; vertical-align: middle; padding:5px 0;"><br>      <font color="purple" size="4"><b>[User’s turn]</b></font><br>      <br><br>      필드에 일치하는 월이 있는지,<br>      해당 월의 카드가 몇 장 있는지 체크<br>      조건에 따라 <b>득점되어 필드에 추가</b> or <b>똥 처리</b><br>      <br><br>      <b><em> 득점한 카드</em></b><br>      가치 값에 따라 다른 좌표로 정렬되어<br>      각 score 패널에 표시<br>      이후 상대의 turn으로 바뀜<br>      <hr><br>      <font color="purple" size="4"><b>[Computer’s turn]</b></font><br>      <br><br>      낸 카드는 숨겨짐<br>      <b>delay 함수</b> 사용<br>      카드를 내거나 이벤트가 발생되었을 때,<br>      육안으로 잘 보이게 하기 위함<br>      <font size="2">(시간 지연 함수)</font><br>      <br><br>    </div><br>    <img src="/image/gostop/gameplay4.PNG" width="800px"><br>    <div style="background-color:rgba(145, 60, 189, 0.3); text-align:center; vertical-align: middle; padding:5px 0;"><br>      <font color="purple" size="4"><b>[Computer’s turn]</b></font><br>      <br><br>      가진 패의 <b>앞에서부터 카드를 내도록</b> 함<br>      <hr><br>      현재 점수와 고의 횟수에 대한 정보가<br>      각 스코어 패널의 레이블에 표시 됨<br>      <hr><br>      <font color="purple" size="4"><b>[똥 Event]</b></font><br>      더미에서 카드를 뒤집고<br>      <b>3장이 겹치게</b> 되었을 때 발생<br>      &gt; <b>똥 이미</b>지 출력, 3장의 카드는 <b>그대로 필드에</b> 남김<br>      <font size="2">(만약 필드에 남은 3장의 카드와 같은 월의 카드를 낸다면 총 4장으 얻게 됨)</font><br>      <br><br>    </div><br>    <img src="/image/gostop/gameplay5.PNG" width="800px"><br>    <div style="background-color:rgba(145, 60, 189, 0.3); text-align:center; vertical-align: middle; padding:5px 0;"><br>      <font color="purple" size="4"><b>[Score]</b></font><br>      <br><br>      각 피의 개수에 따른 점수<br>      홍단 / 청단 / 초단<br>      고도리<br>      3광 / 4광 / 5광<br>      피박<br>      고박<br>      고 횟수 당 1점 추가<br>      <hr><br>      <font color="purple" size="4"><b>[Calculating]</b></font><br>      <br><br>      <b>리스트</b>로 상대와 내가 <b>획득한 카드의 인덱스</b> 저장해,<br>      이를 토대로 점수 계산<br>      <br><br>      <b> 이벤트 발생</b> 시,<br>      <font size="2">(홍단/청단/초단, 고도리, 3광/4광/5광, 똥)</font><br>      <b>델리게이트</b>를 사용<br>      이미지 출력과 점수 계산이 되도록 구현<br>      <hr><br>      <font color="purple" size="4"><b>[Game Over]</b></font><br>      <br><br>      남은 더미 카드 수 소진<br>      스탑 선택 시<br>      <br><br>    </div><br>    <hr><br>    <div id="section4"><br>    <font size="5"><b>4. GO STOP</b></font><br>    <br><br>    <img src="/image/gostop/gostop.PNG" width="800px"><br>    <div style="background-color:rgba(145, 60, 189, 0.3); text-align:center; vertical-align: middle; padding:5px 0;"><br>      GO의 여부를 묻는 폼<br>      <b>7점 이상 획득</b> 시 생성<br>      <br><br>      <b>7점 이하</b>까지는 <b>피박이 적용되지 X</b><br>      카드가 추가되어 <b>면박</b>이 될 경우,<br>      점수가 하락하지만 GO/STOP 선택은 가능<br>      <hr><br>      <font color="purple" size="4"><b>[GO 선택]</b></font><br>      <br><br>      GO 이미지가 뜸<br>      점수와 GO의 횟수 하나씩 증가<br>      게임 계속 진행<br>      <hr><br>      <font color="purple" size="4"><b>[STOP 선택]</b></font><br>      <br><br>      <b>유저의 승리</b>로 게임 종료<br>      게임 종료 시, <b>스코어폼</b>으로 화면 전환<br>      <hr><br>      <font color="purple" size="4"><b>[선택 결과 전달]</b></font><br>      <br><br>      어떠한 버튼을 선택했는지에 대한 정보는<br>      <b>DialogResult</b>를 통해 게임플레이 폼으로 전달<br>      어떤 버튼을 선택했는지에 따라<br>      다른 이미지가 띄워짐<br>      <br><br>    </div><br>    <hr><br>    <div id="section5"><br>    <font size="5"><b>5. SCORE</b></font><br>    <br><br>    <img src="/image/gostop/score.PNG" width="800px"><br>    <div style="background-color:rgba(145, 60, 189, 0.3); text-align:center; vertical-align: middle; padding:5px 0;"><br>      <b>2개의 패널</b>로 구성<br>      <font size="2">(컴퓨터용 / 유저용)</font><br>      <hr><br>      <font color="purple" size="4"><b>[게임 결과]</b></font><br>      <br><br>      색으로 승패 표시<br>      캐릭터 표정 &amp; 도장 이미지<br>      승자의 패널에는 <b>점수와 획득 금액 출력</b><br>      <font size="2">(무승부 시, 우측과 같은 화면 띄워짐)</font><br>      <br><br>    </div><br>    <hr><br>    <div id="section6"><br>    <font color="purple" size="4"><b>[특이 사항]</b></font><br>    <br><br>    - 보너스 패, 흔들기 등을 생략해 프로젝트 스케일 조정<br>    - 게임에 사용된 이미지 직접 제작<br>    - 버전별 업데이트 내역 관리하여 효율적인 작업 수행<br>    <br><br>  </div></div></div></div></div></div></font><br></div>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="https://NAEJINHJ.github.com/2019/01/18/C-sharp/" data-id="cjr1s9h8l002644jjhlu4qxkd" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+    
+    </section>
+
+
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>follow:</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="twitter" href="https://www.twitter.com" target="_blank" rel="noopener">
+                        <i class="icon fa fa-twitter"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="facebook" href="https://www.facebook.com" target="_blank" rel="noopener">
+                        <i class="icon fa fa-facebook"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="google-plus" href="https://www.google.co.kr" target="_blank" rel="noopener">
+                        <i class="icon fa fa-google-plus"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/NAEJINHJ/naejinhj.github.io.git" target="_blank" rel="noopener">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+    
+        <a href="/2019/01/14/bts-profile-scraping/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">older</strong>
+        <p class="article-nav-title">프로필 스크레이핑</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">recents</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/01/18/C-sharp/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/image/gostop/main.PNG)" alt="고 &amp; 스톱" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Project/">Project</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/Project/C/">C#</a></p>
+                            <p class="item-title"><a href="/2019/01/18/C-sharp/" class="title">고 &amp; 스톱</a></p>
+                            <p class="item-date"><time datetime="2019-01-18T02:09:10.727Z" itemprop="datePublished">2019-01-18</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/01/14/bts-profile-scraping/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/image/bts/penguin.gif)" alt="프로필 스크레이핑" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/BIGDATA/">BIGDATA</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/BIGDATA/Machine-Learning/">Machine Learning</a></p>
+                            <p class="item-title"><a href="/2019/01/14/bts-profile-scraping/" class="title">프로필 스크레이핑</a></p>
+                            <p class="item-date"><time datetime="2019-01-13T15:08:45.082Z" itemprop="datePublished">2019-01-14</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/01/13/Titanic/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/image/kaggle/titanic/header.png)" alt="Titanic: Machine Learning from Disaster - first challenge" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Kaggle/">Kaggle</a></p>
+                            <p class="item-title"><a href="/2019/01/13/Titanic/" class="title">Titanic: Machine Learning from Disaster - first challenge</a></p>
+                            <p class="item-date"><time datetime="2019-01-13T13:20:04.365Z" itemprop="datePublished">2019-01-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/01/13/dongguk-final/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/image/dongguk/result_logo.PNG)" alt="수소 충전소 최적의 설립 위치 추천
+- ➂ 분석 결과" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Project/">Project</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/Project/BIGDATA/">BIGDATA</a></p>
+                            <p class="item-title"><a href="/2019/01/13/dongguk-final/" class="title">수소 충전소 최적의 설립 위치 추천
+- ➂ 분석 결과</a></p>
+                            <p class="item-date"><time datetime="2019-01-13T08:50:07.339Z" itemprop="datePublished">2019-01-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/01/10/dongguk2/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/image/dongguk/data_list.PNG)" alt="수소 충전소 최적의 설립 위치 추천
+- ② 데이터 분석" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Project/">Project</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/Project/BIGDATA/">BIGDATA</a></p>
+                            <p class="item-title"><a href="/2019/01/10/dongguk2/" class="title">수소 충전소 최적의 설립 위치 추천
+- ② 데이터 분석</a></p>
+                            <p class="item-date"><time datetime="2019-01-10T12:07:57.693Z" itemprop="datePublished">2019-01-10</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">categories</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/BIGDATA/">BIGDATA</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/BIGDATA/Machine-Learning/">Machine Learning</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/BIGDATA/Machine-Learning/Web-scraping/">Web scraping</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/BIGDATA/Modeling/">Modeling</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/BIGDATA/Modeling/R/">R</a><span class="category-list-count">1</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kaggle/">Kaggle</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/LOG/">LOG</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Project/">Project</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Project/BIGDATA/">BIGDATA</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Project/C/">C#</a><span class="category-list-count">1</span></li></ul></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">archives</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">2</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">tags</h3>
+        <div class="widget">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/BIGDATA/">BIGDATA</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/">C#</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kaggle/">Kaggle</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Project/">Project</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/R/">R</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/game/">game</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/log/">log</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/modeling/">modeling</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/test/">test</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/web-scraping/">web scraping</a><span class="tag-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-float">
+        <h3 class="widget-title">tag cloud</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/BIGDATA/" style="font-size: 15px;">BIGDATA</a> <a href="/tags/C/" style="font-size: 10px;">C#</a> <a href="/tags/Kaggle/" style="font-size: 10px;">Kaggle</a> <a href="/tags/Project/" style="font-size: 15px;">Project</a> <a href="/tags/R/" style="font-size: 15px;">R</a> <a href="/tags/game/" style="font-size: 10px;">game</a> <a href="/tags/log/" style="font-size: 10px;">log</a> <a href="/tags/modeling/" style="font-size: 20px;">modeling</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/test/" style="font-size: 10px;">test</a> <a href="/tags/web-scraping/" style="font-size: 10px;">web scraping</a>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">links</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+            
+        
+    </div>
+</aside>
+
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                  <a href="/" style="font-size:20px;color:#fff; text-decoration: none;">NA'rchive</a>
+                </h1>
+                <p>&copy; 2019 Hyejin</p>
+                <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+            </div>
+            <div class="footer-plugins">
+              
+    
+
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+        
+    
+    <script>
+    var disqus_shortname = 'hexo-theme-hueman';
+    
+    
+    var disqus_url = 'https://NAEJINHJ.github.com/2019/01/18/C-sharp/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>

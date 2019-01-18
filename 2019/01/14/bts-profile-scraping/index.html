@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+
+    
+
+    
+    <title>프로필 스크레이핑 | NA&#39;rchive</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <meta name="keywords" content="python,web scraping">
+    
+    <meta name="description" content="위키피디아로 스크레이핑 실습하는건 질렸당!                        좀 더 색다르게 연습해보기 위해      최애의 프로필을 긁어오기로 했따!                          우선 프로필을 긁어올 사이트에 접속 :)        (http://bts.ibighit.com/bts.php)">
+<meta name="keywords" content="python,web scraping">
+<meta property="og:type" content="article">
+<meta property="og:title" content="프로필 스크레이핑">
+<meta property="og:url" content="https://NAEJINHJ.github.com/2019/01/14/bts-profile-scraping/index.html">
+<meta property="og:site_name" content="NA&#39;rchive">
+<meta property="og:description" content="위키피디아로 스크레이핑 실습하는건 질렸당!                        좀 더 색다르게 연습해보기 위해      최애의 프로필을 긁어오기로 했따!                          우선 프로필을 긁어올 사이트에 접속 :)        (http://bts.ibighit.com/bts.php)">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://naejinhj.github.com/image/bts/penguin.gif">
+<meta property="og:updated_time" content="2019-01-18T08:28:01.429Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="프로필 스크레이핑">
+<meta name="twitter:description" content="위키피디아로 스크레이핑 실습하는건 질렸당!                        좀 더 색다르게 연습해보기 위해      최애의 프로필을 긁어오기로 했따!                          우선 프로필을 긁어올 사이트에 접속 :)        (http://bts.ibighit.com/bts.php)">
+<meta name="twitter:image" content="https://naejinhj.github.com/image/bts/penguin.gif">
+    
+
+    
+
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/titillium-web/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/3.3.1/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+    
+
+
+</head>
+</html>
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                  <h1 class="logo-wrap">
+                     <a href="/" class="logo"></a>
+                 </h1>
+                 
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item">
+                                    <a class="main-nav-list-link" href="/">Home</a>
+                                </li>
+                            
+                                        <ul class="main-nav-list"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/BIGDATA/">BIGDATA</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/BIGDATA/Machine-Learning/">Machine Learning</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/BIGDATA/Modeling/">Modeling</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Kaggle/">Kaggle</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/LOG/">LOG</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Project/">Project</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Project/BIGDATA/">BIGDATA</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Project/C/">C#</a></li></ul></li></ul>
+                                    
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something...">
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/BIGDATA/">BIGDATA</a><i class="icon fa fa-angle-right"></i><a class="page-title-link" href="/categories/BIGDATA/Machine-Learning/">Machine Learning</a><i class="icon fa fa-angle-right"></i><a class="page-title-link" href="/categories/BIGDATA/Machine-Learning/Web-scraping/">Web scraping</a>
+    </h1>
+</div>
+
+                        <div class="main-body-content">
+                            <article id="post-bts-profile-scraping" class="article article-single article-type-post" itemscope="" itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        프로필 스크레이핑
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+    <div class="article-date">
+        <a href="/2019/01/14/bts-profile-scraping/" class="article-date">
+            <time datetime="2019-01-13T15:08:45.082Z" itemprop="datePublished">2019-01-14</time>
+        </a>
+    </div>
+
+		
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/python/">python</a>, <a class="tag-link" href="/tags/web-scraping/">web scraping</a>
+    </div>
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            <p><hr></p>
+<font size="3"><br>  <b><br>    <div style="background-color:rgba(0, 0, 0, 0.0470588); text-align:center; vertical-align: middle; padding:30px 0;"><br>      위키피디아로 스크레이핑 실습하는건 질렸당!<br>      <br><br>      <img src="/image/bts/penguin.gif" width="300px"><br>      <br><br>      좀 더 색다르게 연습해보기 위해<br>      최애의 프로필을 긁어오기로 했따!<br>      <br><br>      <br><br>      <div style="background-color:rgba(0, 0, 0, 0.0470588); text-align:center; vertical-align: middle; padding:30px 0;"><br>        우선 프로필을 긁어올 사이트에 접속 :)<br>        <font size="2" color="purple">(<a href="http://bts.ibighit.com/bts.php" target="_blank" rel="noopener">http://bts.ibighit.com/bts.php</a>)</font><br>        <img src="/image/bts/bighit_profile.PNG" width="1200px"><br>        <hr><br>        <br><br>        F12를 눌러 개발자 도구를 띄운당<br>        <img src="/image/bts/site_code.PNG" width="1200px"><br>        <hr><br>        <br><br>        프로필 사진을 포함하고 있는 태그를 확인한다!<br>        <img src="/image/bts/code.PNG" width="600px"><br>        <br><br>        <font color="purple">img 태그</font>에 마우스를 살포시 올려놔보자!<br>        <img src="/image/bts/code_mouse.PNG" width="1200px"><br>        <br><br>        (울먹)<br>        <img src="/image/bts/uu.PNG" width="400px"><br>        <hr><br>        <br><br>        본격적으로 <font color="orange">Jupyter Notebook</font>을 사용해<br>        프로필을 긁어와보자!<br>        <br><br>        <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</span><br><span class="line"><span class="keyword">import</span> urllib.request <span class="keyword">as</span> req</span><br></pre></td></tr></table></figure><br>        <div style="background-color:rgba(0, 0, 0, 0.0470588); text-align:center; vertical-align: middle; padding:10px 0;"><br>          <font color="purple"><b>[BeautifulSoup]</b></font><br>          HTML과 XML에서 간단히 정보 추출 가능<br>          <b>태그를 활용</b>해 필요한 데이터를 수집<br>          <font color="gray" size="2">(태그 중심으로 분리 가능)</font><br>          <hr><br>          <font color="purple"><b>[urllib]</b></font><br>          urllib는 URL을 다루는 모듈을 모아놓은 패키지<br>          <b>urllib.request 모듈</b>은 웹사이트에 있는 데이터에 접근하는 기능 제공<br>          인증, redirect, 쿠키처럼 인터넷을 이용한 다양한 요청과 처리 지원<br>          <hr><br>          <font color="purple" size="2">(참조: <a href="https://medium.com/@katekim720/%EC%9B%B9-%ED%81%AC%EB%A1%A4%EB%A7%81%EA%B3%BC-%EC%8A%A4%ED%81%AC%EB%A0%88%EC%9D%B4%ED%95%91-%EB%B6%80%ED%84%B0-e32e237da3db" target="_blank" rel="noopener">https://medium.com/@katekim720/%EC%9B%B9-%ED%81%AC%EB%A1%A4%EB%A7%81%EA%B3%BC-%EC%8A%A4%ED%81%AC%EB%A0%88%EC%9D%B4%ED%95%91-%EB%B6%80%ED%84%B0-e32e237da3db</a>)</font><br>        </div><br>        <br><br>        <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">url = <span class="string">"http://bts.ibighit.com/bts.php"</span></span><br><span class="line">res = req.urlopen(url)</span><br><span class="line">soup = BeautifulSoup(res,<span class="string">"html.parser"</span>)</span><br></pre></td></tr></table></figure><br>        <br><br>        <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">profile_img = &#123;<span class="string">"class"</span>:<span class="string">"bts-img"</span>&#125;</span><br><span class="line">eee = soup.find_all(<span class="string">"img"</span>,profile_img)  <span class="comment">#img 태그 전체 검색</span></span><br><span class="line"><span class="keyword">for</span> m <span class="keyword">in</span> eee:</span><br><span class="line">  print(<span class="string">"http://bts.ibighit.com/"</span> + m.get(<span class="string">"src"</span>) + <span class="string">"\n"</span>)</span><br></pre></td></tr></table></figure><br>        <img src="/image/bts/print1.PNG" width="300px" height="400px"><br>        프로필 설명 img도 같은 방식으로 긁어오자!<br>        <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">profile_desc = &#123;<span class="string">"class"</span>:<span class="string">"bts-desc"</span>&#125;</span><br><span class="line">ddd = soup.find_all(<span class="string">"img"</span>,profile_desc)</span><br><span class="line"><span class="keyword">for</span> k <span class="keyword">in</span> ddd:</span><br><span class="line">  print(<span class="string">"http://bts.ibighit.com/"</span>+k.get(<span class="string">"src"</span>)+<span class="string">"\n"</span>)</span><br></pre></td></tr></table></figure><br>        <hr><br>        긁어온 png 이미지들을 화면에 뿌려보자!<br>        <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> IPython.display <span class="keyword">import</span> Image</span><br><span class="line"><span class="keyword">for</span> n <span class="keyword">in</span> eee:</span><br><span class="line">  link = <span class="string">"http://bts.ibighit.com/"</span>+n.get(<span class="string">"src"</span>)+<span class="string">"\n"</span></span><br><span class="line">  display(Image(url = link))</span><br></pre></td></tr></table></figure><br>        <img src="/image/bts/result1.PNG" width="600px"><br>        <hr><br>        <br><br>        잘 출력되는 것을 확인해 봤다면,<br>        프로필 설명과 함께 뿌려보자!<br>        <img src="/image/bts/result2.PNG" width="600px" height="500px"><br>      </div><br>      <br><br>      <br><br>      <img src="/image/bts/panda.PNG" width="400px"><br>      다음번엔 웹크롤링으로<br>      <font color="purple" size="2"><a href="https://ef7890.ibighit.com/main/index?gclid=Cj0KCQiAg_HhBRDNARIsAGHLV53HBymFXA4mlwSGXjnhpGNO_6JUqV6wmYVUILp-HHucbMGNx9bpV5caAmGeEALw_wcB" target="_blank" rel="noopener">https://ef7890.ibighit.com/main/index?gclid=Cj0KCQiAg_HhBRDNARIsAGHLV53HBymFXA4mlwSGXjnhpGNO_6JUqV6wmYVUILp-HHucbMGNx9bpV5caAmGeEALw_wcB</a></font><br>      여길 긁어보겠다!<br>      <br><br>    </div><br>  </b><br></font>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="https://NAEJINHJ.github.com/2019/01/14/bts-profile-scraping/" data-id="cjr1s9h5p000444jjbub5k12i" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+    
+    </section>
+
+
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>follow:</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="twitter" href="https://www.twitter.com" target="_blank" rel="noopener">
+                        <i class="icon fa fa-twitter"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="facebook" href="https://www.facebook.com" target="_blank" rel="noopener">
+                        <i class="icon fa fa-facebook"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="google-plus" href="https://www.google.co.kr" target="_blank" rel="noopener">
+                        <i class="icon fa fa-google-plus"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/NAEJINHJ/naejinhj.github.io.git" target="_blank" rel="noopener">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2019/01/18/C-sharp/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">newer</strong>
+        <p class="article-nav-title">
+        
+            고 &amp; 스톱
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/2019/01/13/Titanic/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">older</strong>
+        <p class="article-nav-title">Titanic: Machine Learning from Disaster - first challenge</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">recents</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/01/18/C-sharp/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/image/gostop/main.PNG)" alt="고 &amp; 스톱" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Project/">Project</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/Project/C/">C#</a></p>
+                            <p class="item-title"><a href="/2019/01/18/C-sharp/" class="title">고 &amp; 스톱</a></p>
+                            <p class="item-date"><time datetime="2019-01-18T02:09:10.727Z" itemprop="datePublished">2019-01-18</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/01/14/bts-profile-scraping/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/image/bts/penguin.gif)" alt="프로필 스크레이핑" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/BIGDATA/">BIGDATA</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/BIGDATA/Machine-Learning/">Machine Learning</a></p>
+                            <p class="item-title"><a href="/2019/01/14/bts-profile-scraping/" class="title">프로필 스크레이핑</a></p>
+                            <p class="item-date"><time datetime="2019-01-13T15:08:45.082Z" itemprop="datePublished">2019-01-14</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/01/13/Titanic/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/image/kaggle/titanic/header.png)" alt="Titanic: Machine Learning from Disaster - first challenge" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Kaggle/">Kaggle</a></p>
+                            <p class="item-title"><a href="/2019/01/13/Titanic/" class="title">Titanic: Machine Learning from Disaster - first challenge</a></p>
+                            <p class="item-date"><time datetime="2019-01-13T13:20:04.365Z" itemprop="datePublished">2019-01-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/01/13/dongguk-final/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/image/dongguk/result_logo.PNG)" alt="수소 충전소 최적의 설립 위치 추천
+- ➂ 분석 결과" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Project/">Project</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/Project/BIGDATA/">BIGDATA</a></p>
+                            <p class="item-title"><a href="/2019/01/13/dongguk-final/" class="title">수소 충전소 최적의 설립 위치 추천
+- ➂ 분석 결과</a></p>
+                            <p class="item-date"><time datetime="2019-01-13T08:50:07.339Z" itemprop="datePublished">2019-01-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/01/10/dongguk2/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/image/dongguk/data_list.PNG)" alt="수소 충전소 최적의 설립 위치 추천
+- ② 데이터 분석" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Project/">Project</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/Project/BIGDATA/">BIGDATA</a></p>
+                            <p class="item-title"><a href="/2019/01/10/dongguk2/" class="title">수소 충전소 최적의 설립 위치 추천
+- ② 데이터 분석</a></p>
+                            <p class="item-date"><time datetime="2019-01-10T12:07:57.693Z" itemprop="datePublished">2019-01-10</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">categories</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/BIGDATA/">BIGDATA</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/BIGDATA/Machine-Learning/">Machine Learning</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/BIGDATA/Machine-Learning/Web-scraping/">Web scraping</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/BIGDATA/Modeling/">Modeling</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/BIGDATA/Modeling/R/">R</a><span class="category-list-count">1</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kaggle/">Kaggle</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/LOG/">LOG</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Project/">Project</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Project/BIGDATA/">BIGDATA</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Project/C/">C#</a><span class="category-list-count">1</span></li></ul></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">archives</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">2</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">tags</h3>
+        <div class="widget">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/BIGDATA/">BIGDATA</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/">C#</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kaggle/">Kaggle</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Project/">Project</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/R/">R</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/game/">game</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/log/">log</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/modeling/">modeling</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/test/">test</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/web-scraping/">web scraping</a><span class="tag-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-float">
+        <h3 class="widget-title">tag cloud</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/BIGDATA/" style="font-size: 15px;">BIGDATA</a> <a href="/tags/C/" style="font-size: 10px;">C#</a> <a href="/tags/Kaggle/" style="font-size: 10px;">Kaggle</a> <a href="/tags/Project/" style="font-size: 15px;">Project</a> <a href="/tags/R/" style="font-size: 15px;">R</a> <a href="/tags/game/" style="font-size: 10px;">game</a> <a href="/tags/log/" style="font-size: 10px;">log</a> <a href="/tags/modeling/" style="font-size: 20px;">modeling</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/test/" style="font-size: 10px;">test</a> <a href="/tags/web-scraping/" style="font-size: 10px;">web scraping</a>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">links</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+            
+        
+    </div>
+</aside>
+
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                  <a href="/" style="font-size:20px;color:#fff; text-decoration: none;">NA'rchive</a>
+                </h1>
+                <p>&copy; 2019 Hyejin</p>
+                <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+            </div>
+            <div class="footer-plugins">
+              
+    
+
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+        
+    
+    <script>
+    var disqus_shortname = 'hexo-theme-hueman';
+    
+    
+    var disqus_url = 'https://NAEJINHJ.github.com/2019/01/14/bts-profile-scraping/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>
