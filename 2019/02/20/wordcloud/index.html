@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+
+    
+
+    
+    <title>뉴스 댓글 WordCloud 분석 | NA&#39;rchive</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <meta name="keywords" content="BIGDATA,NLP">
+    
+    <meta name="description" content="[목적]    오늘은 뉴스의 댓글을 분석해,    해당 뉴스에서 가장 많이 언급 된 단어를 알 수 있는    wordcloud 분석을 수행해보겠다.    이 분석으로 우리는 해당 기사의 여론을 알 수 있다.        분석할 뉴스는 아래와 같다.            (링크: https://news.naver.com/main/ranking/r">
+<meta name="keywords" content="BIGDATA,NLP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="뉴스 댓글 WordCloud 분석">
+<meta property="og:url" content="https://NAEJINHJ.github.com/2019/02/20/wordcloud/index.html">
+<meta property="og:site_name" content="NA&#39;rchive">
+<meta property="og:description" content="[목적]    오늘은 뉴스의 댓글을 분석해,    해당 뉴스에서 가장 많이 언급 된 단어를 알 수 있는    wordcloud 분석을 수행해보겠다.    이 분석으로 우리는 해당 기사의 여론을 알 수 있다.        분석할 뉴스는 아래와 같다.            (링크: https://news.naver.com/main/ranking/r">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://naejinhj.github.com/image/NLP/wordcloud.png">
+<meta property="og:updated_time" content="2019-02-21T03:32:49.177Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="뉴스 댓글 WordCloud 분석">
+<meta name="twitter:description" content="[목적]    오늘은 뉴스의 댓글을 분석해,    해당 뉴스에서 가장 많이 언급 된 단어를 알 수 있는    wordcloud 분석을 수행해보겠다.    이 분석으로 우리는 해당 기사의 여론을 알 수 있다.        분석할 뉴스는 아래와 같다.            (링크: https://news.naver.com/main/ranking/r">
+<meta name="twitter:image" content="https://naejinhj.github.com/image/NLP/wordcloud.png">
+    
+
+    
+
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/titillium-web/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/3.3.1/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+    
+
+
+</head>
+</html>
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                  <h1 class="logo-wrap">
+                     <a href="/" class="logo"></a>
+                 </h1>
+                 
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item">
+                                    <a class="main-nav-list-link" href="/">Home</a>
+                                </li>
+                            
+                                        <ul class="main-nav-list"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/BIGDATA/">BIGDATA</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/BIGDATA/DATA/">DATA</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/BIGDATA/Modeling/">Modeling</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/BIGDATA/NLP/">NLP</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Coding-Test/">Coding Test</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Coding-Test/Python/">Python</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/DB/">DB</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/DB/NoSQL/">NoSQL</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Kaggle/">Kaggle</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/LOG/">LOG</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Project/">Project</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Project/BIGDATA/">BIGDATA</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Project/C/">C#</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Project/JAVA/">JAVA</a></li></ul></li></ul>
+                                    
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something...">
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/BIGDATA/">BIGDATA</a><i class="icon fa fa-angle-right"></i><a class="page-title-link" href="/categories/BIGDATA/NLP/">NLP</a>
+    </h1>
+</div>
+
+                        <div class="main-body-content">
+                            <article id="post-wordcloud" class="article article-single article-type-post" itemscope="" itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        뉴스 댓글 WordCloud 분석
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+    <div class="article-date">
+        <a href="/2019/02/20/wordcloud/" class="article-date">
+            <time datetime="2019-02-20T14:22:24.864Z" itemprop="datePublished">2019-02-20</time>
+        </a>
+    </div>
+
+		
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/BIGDATA/">BIGDATA</a>, <a class="tag-link" href="/tags/NLP/">NLP</a>
+    </div>
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            <font size="3"><br>  <img src="/image/NLP/wordcloud.png"><br>  <div style=" text-align:center; vertical-align: middle; padding:30px 0;"><br>    <font size="5"><b>[목적]</b></font><br>    오늘은 뉴스의 댓글을 분석해,<br>    해당 뉴스에서 가장 많이 언급 된 단어를 알 수 있는<br>    <font color="hotpink" size="4"><b>wordcloud 분석</b></font>을 수행해보겠다.<br>    이 분석으로 우리는 해당 기사의 여론을 알 수 있다.<br>    <br><br>    분석할 뉴스는 아래와 같다.<br>    <img src="/image/NLP/news.PNG"><br>    <img src="/image/NLP/comment_ratio.PNG"><br>    <font size="2" color="gray">(링크: <a href="https://news.naver.com/main/ranking/read.nhn?rankingType=popular_memo&amp;oid=056&amp;aid=0010672808&amp;date=20190220&amp;type=2&amp;rankingSectionId=102&amp;rankingSeq=2" target="_blank" rel="noopener">https://news.naver.com/main/ranking/read.nhn?rankingType=popular_memo&amp;oid=056&amp;aid=0010672808&amp;date=20190220&amp;type=2&amp;rankingSectionId=102&amp;rankingSeq=2</a>)</font><br>    <br><br>    댓글 분석을 위해 먼저,<br>    <b>총 9,809개의 댓글을 크롤링</b>한다<br>    <br><br>    <font size="5"><b>[크롤링]</b></font><br>    <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 라이브러리</span></span><br><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">import</span> pprint</span><br><span class="line"></span><br><span class="line"><span class="comment"># 댓글 저장 리스트 초기화</span></span><br><span class="line">List=[]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 네이버 뉴스 url을 입력</span></span><br><span class="line">url=<span class="string">"https://news.naver.com/main/ranking/read.nhn?rankingType=popular_memo&amp;oid=056&amp;aid=0010672808&amp;date=20190220&amp;type=2&amp;rankingSectionId=102&amp;rankingSeq=2"</span></span><br><span class="line">oid=url.split(<span class="string">"oid="</span>)[<span class="number">1</span>].split(<span class="string">"&amp;"</span>)[<span class="number">0</span>]</span><br><span class="line">aid=url.split(<span class="string">"aid="</span>)[<span class="number">1</span>]</span><br><span class="line">page=<span class="number">1</span></span><br><span class="line">header = &#123;</span><br><span class="line">  <span class="string">"User-agent"</span>:<span class="string">"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36"</span>,</span><br><span class="line">  <span class="string">"referer"</span>:url,</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">while</span> <span class="keyword">True</span> :</span><br><span class="line">  c_url=<span class="string">"https://apis.naver.com/commentBox/cbox/web_neo_list_jsonp.json?ticket=news&amp;templateId=default_society&amp;pool=cbox5&amp;_callback=jQuery1707138182064460843_1523512042464&amp;lang=ko&amp;country=&amp;objectId=news"</span>+oid+<span class="string">"%2C"</span>+aid+<span class="string">"&amp;categoryId=&amp;pageSize=20&amp;indexSize=10&amp;groupId=&amp;listType=OBJECT&amp;pageType=more&amp;page="</span>+str(page)+<span class="string">"&amp;refresh=false&amp;sort=FAVORITE"</span></span><br><span class="line"><span class="comment"># 파싱</span></span><br><span class="line">  r=requests.get(c_url,headers=header)</span><br><span class="line">  cont=BeautifulSoup(r.content,<span class="string">"html.parser"</span>)</span><br><span class="line">  total_comm=str(cont).split(<span class="string">'comment":'</span>)[<span class="number">1</span>].split(<span class="string">","</span>)[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">  match=re.findall(<span class="string">'"contents":([^\*]*),"userIdNo"'</span>, str(cont))</span><br><span class="line"><span class="comment"># 댓글을 리스트에 중첩</span></span><br><span class="line">  List.append(match)</span><br><span class="line"><span class="comment"># 한번에 댓글이 20개씩 보이기 때문에 한 페이지씩 댓글 크롤링.</span></span><br><span class="line"><span class="comment"># 페이지 내, 댓글의 개수가 20개보다 적을 시 마지막 페이지임을 식별</span></span><br><span class="line">  <span class="keyword">if</span> int(total_comm) &lt;= ((page) * <span class="number">20</span>):</span><br><span class="line">      <span class="keyword">break</span></span><br><span class="line">  <span class="keyword">else</span> :</span><br><span class="line">      page+=<span class="number">1</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 여러 리스트들을 하나로 묶는 함수</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">flatten</span><span class="params">(l)</span>:</span></span><br><span class="line">  flatList = []</span><br><span class="line">  <span class="keyword">for</span> elem <span class="keyword">in</span> l:</span><br><span class="line">      <span class="comment"># if an element of a list is a list</span></span><br><span class="line">      <span class="comment"># iterate over this list and add elements to flatList</span></span><br><span class="line">      <span class="keyword">if</span> type(elem) == list:</span><br><span class="line">          <span class="keyword">for</span> e <span class="keyword">in</span> elem:</span><br><span class="line">              flatList.append(e)</span><br><span class="line">      <span class="keyword">else</span>:</span><br><span class="line">          flatList.append(elem)</span><br><span class="line">  <span class="keyword">return</span> flatList</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 리스트 결과 확인</span></span><br><span class="line"><span class="comment"># flatten(List)</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> codecs</span><br><span class="line">file = codecs.open(<span class="string">"./comment/news_test_set.txt"</span>,<span class="string">'w'</span>,encoding=<span class="string">'utf8'</span>)</span><br><span class="line"><span class="comment"># file = codecs.open("./comment/news_test_set.txt",'a',encoding='utf8')</span></span><br><span class="line">file.write(<span class="string">"\n"</span>.join(str(v) <span class="keyword">for</span> v <span class="keyword">in</span> List))</span><br><span class="line">file.close()</span><br><span class="line">    </span><br></pre></td></tr></table></figure><br>    <br><br>    크롤링된 댓글은 다음과 같이<br>    <b>txt 파일로 저장</b>된다.<br>    <br><br>    <img src="/image/NLP/crolling_result.PNG"><br>    <br><br>    크롤링된 댓글에서 <b>명사를 추출</b>하고,<br>    어떤 단어가 가장 많이 나왔는 지 <b>빈도수를 체크</b>한다.<br>    <b><font color="hotpink">언급 된 빈도가 큰 150가지의 단어</font></b>들로 wordcloud를 만든다.<br>    <br><br>    pytagcloud의 경우, 한글을 지원하지 않으므로<br>    한글 폰트<font size="2">(ttf,otf 파일)</font>를 다운받아 <b>pytagcloud\fonts</b> 폴더 내에 저장하고,<br>    해당 경로 내, <b>fonts.json 파일</b>에 아래 처럼 코드를 추가한다.<br>    <br><br>    <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="attr">"name"</span>: <span class="string">"Korean"</span>,</span><br><span class="line">    <span class="attr">"ttf"</span>: <span class="string">"본인이 다운 받은 한글 파일"</span>,</span><br><span class="line">    <span class="attr">"web"</span>: <span class="string">"http://fonts.googleapis.com/css?family=Nobile"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="attr">"name"</span>: <span class="string">"Nobile"</span>,</span><br><span class="line">    <span class="attr">"ttf"</span>: <span class="string">"nobile.ttf"</span>,</span><br><span class="line">    <span class="attr">"web"</span>: <span class="string">"http://fonts.googleapis.com/css?family=Nobile"</span></span><br><span class="line">  &#125;,</span><br><span class="line">    </span><br></pre></td></tr></table></figure><br>    <br><br>    <font size="5"><b>[WordCloud]</b></font><br>    <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> Counter</span><br><span class="line"><span class="comment"># KoNLPy v0.4.5. 상위 버전부터 Twitter가 Okt로 대체</span></span><br><span class="line"><span class="comment"># twitter로 쓴다면 이하의 에러 발생</span></span><br><span class="line"><span class="comment"># "Twitter" has changed to "Okt" since KoNLPy v0.4.5.</span></span><br><span class="line"><span class="keyword">from</span> konlpy.tag <span class="keyword">import</span> Okt</span><br><span class="line"><span class="keyword">import</span> pytagcloud</span><br><span class="line"></span><br><span class="line">f = open(<span class="string">"./comment/news_test_set.txt"</span>,<span class="string">'r'</span>,encoding=<span class="string">"UTF8"</span>)</span><br><span class="line">data = f.read()</span><br><span class="line"></span><br><span class="line">spliter = Okt()</span><br><span class="line">nouns = spliter.nouns(data)</span><br><span class="line"></span><br><span class="line">count = Counter(nouns)</span><br><span class="line">tag = count.most_common(<span class="number">150</span>)</span><br><span class="line">taglist = pytagcloud.make_tags(tag,maxsize=<span class="number">80</span>)</span><br><span class="line"></span><br><span class="line">pytagcloud.create_tag_image(taglist, <span class="string">'./wordcloud/news_wordcloud.jpg'</span>, size=(<span class="number">900</span>, <span class="number">600</span>), fontname=<span class="string">'Korean'</span>, rectangular=<span class="keyword">False</span>)</span><br><span class="line">f.close()</span><br><span class="line">    </span><br></pre></td></tr></table></figure><br>    <br><br>    가장 <b>많이 언급된 단어들을 나열</b>해보자.<br>    <img src="/image/NLP/count_30.PNG"><br>    <br><br>    <b><font color="hotpink">wordcloud 분석의 결과</font></b>는<br>    다음과 같다.<br>    <br><br>    <img src="/image/NLP/news_wordcloud.jpg"><br>    <br><br>    <font size="5"><b>[결론]</b></font><br>    해당 분석을 통해<br>    <b>뉴스에 대한 여론이 꽤나 <font color="red">부정적임</font>을 알 수 있었다.</b><br>    <br><br>    <br><br>    <br><br>    <div style="background-color:rgba(0, 0, 0, 0.0470588); text-align:center; vertical-align: middle; padding:30px 0;"><br>    <font size="5"><b>[출처]</b></font><br>    네이버 뉴스 댓글 크롤링<br>    <a href="https://m.blog.naver.com/PostView.nhn?blogId=seodaeho91&amp;logNo=221273565367&amp;proxyReferer=https%3A%2F%2Fwww.google.com%2F" target="_blank" rel="noopener">https://m.blog.naver.com/PostView.nhn?blogId=seodaeho91&amp;logNo=221273565367&amp;proxyReferer=https%3A%2F%2Fwww.google.com%2F</a><br>    <hr><br>    텍스트마이닝 : 파이썬 워드클라우드 만들기<br>    <a href="http://blog.naver.com/PostView.nhn?blogId=imsam77&amp;logNo=221260319159&amp;categoryNo=13&amp;parentCategoryNo=0&amp;viewDate=&amp;currentPage=1&amp;postListTopCurrentPage=1&amp;from=postView" target="_blank" rel="noopener">http://blog.naver.com/PostView.nhn?blogId=imsam77&amp;logNo=221260319159&amp;categoryNo=13&amp;parentCategoryNo=0&amp;viewDate=&amp;currentPage=1&amp;postListTopCurrentPage=1&amp;from=postView</a><br>    </div><br>  </div><br></font>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="https://NAEJINHJ.github.com/2019/02/20/wordcloud/" data-id="cjse2nrvb000tawjjhyii2azp" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+    
+    </section>
+
+
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>follow:</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="twitter" href="https://www.twitter.com" target="_blank" rel="noopener">
+                        <i class="icon fa fa-twitter"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="facebook" href="https://www.facebook.com" target="_blank" rel="noopener">
+                        <i class="icon fa fa-facebook"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="google-plus" href="https://www.google.co.kr" target="_blank" rel="noopener">
+                        <i class="icon fa fa-google-plus"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/NAEJINHJ/naejinhj.github.io.git" target="_blank" rel="noopener">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+    
+        <a href="/2019/01/28/DATA/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">older</strong>
+        <p class="article-nav-title">참고할 만한 데이터셋</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">recents</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/02/20/wordcloud/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/image/NLP/wordcloud.png)" alt="뉴스 댓글 WordCloud 분석" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/BIGDATA/">BIGDATA</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/BIGDATA/NLP/">NLP</a></p>
+                            <p class="item-title"><a href="/2019/02/20/wordcloud/" class="title">뉴스 댓글 WordCloud 분석</a></p>
+                            <p class="item-date"><time datetime="2019-02-20T14:22:24.864Z" itemprop="datePublished">2019-02-20</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/01/28/DATA/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/image/data.PNG)" alt="참고할 만한 데이터셋" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/BIGDATA/">BIGDATA</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/BIGDATA/DATA/">DATA</a></p>
+                            <p class="item-title"><a href="/2019/01/28/DATA/" class="title">참고할 만한 데이터셋</a></p>
+                            <p class="item-date"><time datetime="2019-01-27T17:15:26.285Z" itemprop="datePublished">2019-01-28</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/01/28/upload-plan/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/image/pancake.gif)" alt="PLAN" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/LOG/">LOG</a></p>
+                            <p class="item-title"><a href="/2019/01/28/upload-plan/" class="title">PLAN</a></p>
+                            <p class="item-date"><time datetime="2019-01-27T16:40:47.333Z" itemprop="datePublished">2019-01-28</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/01/26/baseball-winner-prediction/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/image/baseball/win_prediction/modeling_framework.PNG)" alt="메이저리그 야구 승률 예측 - ① 게임-데이 시뮬레이션" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/BIGDATA/">BIGDATA</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/BIGDATA/Modeling/">Modeling</a></p>
+                            <p class="item-title"><a href="/2019/01/26/baseball-winner-prediction/" class="title">메이저리그 야구 승률 예측 - ① 게임-데이 시뮬레이션</a></p>
+                            <p class="item-date"><time datetime="2019-01-26T14:55:11.387Z" itemprop="datePublished">2019-01-26</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/01/24/NoSQL/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/image/mongodb/nosql/NoSQL_logo.PNG)" alt="NoSQL이란?" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/DB/">DB</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/DB/NoSQL/">NoSQL</a></p>
+                            <p class="item-title"><a href="/2019/01/24/NoSQL/" class="title">NoSQL이란?</a></p>
+                            <p class="item-date"><time datetime="2019-01-24T07:15:52.142Z" itemprop="datePublished">2019-01-24</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">categories</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/BIGDATA/">BIGDATA</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/BIGDATA/DATA/">DATA</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/BIGDATA/Modeling/">Modeling</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/BIGDATA/Modeling/R/">R</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/BIGDATA/NLP/">NLP</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Coding-Test/">Coding Test</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Coding-Test/Python/">Python</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/DB/">DB</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/DB/NoSQL/">NoSQL</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kaggle/">Kaggle</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/LOG/">LOG</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Project/">Project</a><span class="category-list-count">5</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Project/BIGDATA/">BIGDATA</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Project/C/">C#</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Project/JAVA/">JAVA</a><span class="category-list-count">1</span></li></ul></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">archives</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">2</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">tags</h3>
+        <div class="widget">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/BIGDATA/">BIGDATA</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/">C#</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DB/">DB</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA/">JAVA</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kaggle/">Kaggle</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LOG/">LOG</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MongoDB/">MongoDB</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NLP/">NLP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NoSQL/">NoSQL</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PLAN/">PLAN</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Project/">Project</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/R/">R</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/coding-test/">coding test</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/data/">data</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/game/">game</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/log/">log</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/modeling/">modeling</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/test/">test</a><span class="tag-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-float">
+        <h3 class="widget-title">tag cloud</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/BIGDATA/" style="font-size: 16.67px;">BIGDATA</a> <a href="/tags/C/" style="font-size: 10px;">C#</a> <a href="/tags/DB/" style="font-size: 10px;">DB</a> <a href="/tags/JAVA/" style="font-size: 10px;">JAVA</a> <a href="/tags/Kaggle/" style="font-size: 10px;">Kaggle</a> <a href="/tags/LOG/" style="font-size: 10px;">LOG</a> <a href="/tags/MongoDB/" style="font-size: 10px;">MongoDB</a> <a href="/tags/NLP/" style="font-size: 10px;">NLP</a> <a href="/tags/NoSQL/" style="font-size: 10px;">NoSQL</a> <a href="/tags/PLAN/" style="font-size: 10px;">PLAN</a> <a href="/tags/Project/" style="font-size: 16.67px;">Project</a> <a href="/tags/R/" style="font-size: 16.67px;">R</a> <a href="/tags/coding-test/" style="font-size: 10px;">coding test</a> <a href="/tags/data/" style="font-size: 10px;">data</a> <a href="/tags/game/" style="font-size: 13.33px;">game</a> <a href="/tags/log/" style="font-size: 10px;">log</a> <a href="/tags/modeling/" style="font-size: 20px;">modeling</a> <a href="/tags/python/" style="font-size: 16.67px;">python</a> <a href="/tags/test/" style="font-size: 10px;">test</a>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">links</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+            
+        
+    </div>
+</aside>
+
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                  <a href="/" style="font-size:20px;color:#fff; text-decoration: none;">NA'rchive</a>
+                </h1>
+                <p>&copy; 2019 Hyejin</p>
+                <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+            </div>
+            <div class="footer-plugins">
+              
+    
+
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+        
+    
+    <script>
+    var disqus_shortname = 'hexo-theme-hueman';
+    
+    
+    var disqus_url = 'https://NAEJINHJ.github.com/2019/02/20/wordcloud/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>
