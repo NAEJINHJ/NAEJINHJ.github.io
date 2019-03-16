@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+
+    
+
+    
+    <title>Quora Question Pairs : 텍스트 유사도 분석 - 분석/XGboostModel | NA&#39;rchive</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <meta name="keywords" content="python,NLP,BIGDATA,Kaggle">
+    
+    <meta name="description" content="[목차]        Quora Question Pairs    데이터 분석    전처리    XGboost Model    Score        Quora Question Pairs        GOAL            Quora(쿼라)는 질문을 하고 다른 사용자들로부터 답을 받을 수 있는 서비스    이 서비스의 질문들 중에서 어떤">
+<meta name="keywords" content="python,NLP,BIGDATA,Kaggle">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Quora Question Pairs : 텍스트 유사도 분석 - 분석&#x2F;XGboostModel">
+<meta property="og:url" content="https://NAEJINHJ.github.com/2019/03/14/quora_data_analy_and_xgboost_model/index.html">
+<meta property="og:site_name" content="NA&#39;rchive">
+<meta property="og:description" content="[목차]        Quora Question Pairs    데이터 분석    전처리    XGboost Model    Score        Quora Question Pairs        GOAL            Quora(쿼라)는 질문을 하고 다른 사용자들로부터 답을 받을 수 있는 서비스    이 서비스의 질문들 중에서 어떤">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://naejinhj.github.com/image/kaggle/quora/quora_descript.PNG">
+<meta property="og:updated_time" content="2019-03-16T13:59:45.937Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Quora Question Pairs : 텍스트 유사도 분석 - 분석&#x2F;XGboostModel">
+<meta name="twitter:description" content="[목차]        Quora Question Pairs    데이터 분석    전처리    XGboost Model    Score        Quora Question Pairs        GOAL            Quora(쿼라)는 질문을 하고 다른 사용자들로부터 답을 받을 수 있는 서비스    이 서비스의 질문들 중에서 어떤">
+<meta name="twitter:image" content="https://naejinhj.github.com/image/kaggle/quora/quora_descript.PNG">
+    
+
+    
+
+    
+        <link rel="icon" href="/css/images/favicon.ico">
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/titillium-web/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/3.3.1/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+    
+
+
+</head>
+</html>
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                  <h1 class="logo-wrap">
+                     <a href="/" class="logo"></a>
+                 </h1>
+                 
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item">
+                                    <a class="main-nav-list-link" href="/">Home</a>
+                                </li>
+                            
+                                        <ul class="main-nav-list"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/BIGDATA/">BIGDATA</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/BIGDATA/DATA/">DATA</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/BIGDATA/Modeling/">Modeling</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/BIGDATA/NLP/">NLP</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Coding-Test/">Coding Test</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Coding-Test/Python/">Python</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/DB/">DB</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/DB/NoSQL/">NoSQL</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/LOG/">LOG</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Project/">Project</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Project/BIGDATA/">BIGDATA</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Project/C/">C#</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Project/JAVA/">JAVA</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Project/Kaggle/">Kaggle</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Project/NLP/">NLP</a></li></ul></li></ul>
+                                    
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something...">
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/Project/">Project</a><i class="icon fa fa-angle-right"></i><a class="page-title-link" href="/categories/Project/Kaggle/">Kaggle</a><i class="icon fa fa-angle-right"></i><a class="page-title-link" href="/categories/Project/Kaggle/NLP/">NLP</a>
+    </h1>
+</div>
+
+                        <div class="main-body-content">
+                            <article id="post-quora_data_analy_and_xgboost_model" class="article article-single article-type-post" itemscope="" itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        Quora Question Pairs : 텍스트 유사도 분석 - 분석/XGboostModel
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+    <div class="article-date">
+        <a href="/2019/03/14/quora_data_analy_and_xgboost_model/" class="article-date">
+            <time datetime="2019-03-13T15:25:42.876Z" itemprop="datePublished">2019-03-14</time>
+        </a>
+    </div>
+
+		
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/BIGDATA/">BIGDATA</a>, <a class="tag-link" href="/tags/Kaggle/">Kaggle</a>, <a class="tag-link" href="/tags/NLP/">NLP</a>, <a class="tag-link" href="/tags/python/">python</a>
+    </div>
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            <font size="3"><br>  <img src="/image/kaggle/quora/quora_descript.PNG"><br>  <div style="background-color:rgba(0, 0, 0, 0.0470588); text-align:center; vertical-align: middle; padding:30px 0;"><br>    <font size="4"><b>[목차]</b></font><br>    <hr><br>    <a href="#section1"><font color="blue" size="4"><b>Quora Question Pairs</b></font></a><br>    <a href="#section2"><font color="hotpink"><b>데이터 분석</b></font></a><br>    <a href="#section3"><font color="hotpink"><b>전처리</b></font></a><br>    <a href="#section4"><font color="hotpink"><b>XGboost Model</b></font></a><br>    <a href="#section5"><font color="hotpink"><b>Score</b></font></a><br>  </div><br>  <br><br>  <div id="section1"><br>  <font size="5" color="black"><b>Quora Question Pairs</b></font><br>  <hr color="black"><br>  <div style=" text-align:center; vertical-align: middle; padding:30px 0;"><br>    <font size="4"><b>GOAL</b></font><br>    <hr><br>    <img src="/image/kaggle/quora/quora.jpg"><br>    <b>Quora</b><font size="2">(쿼라)</font>는 질문을 하고 다른 사용자들로부터 답을 받을 수 있는 서비스<br>    이 서비스의 질문들 중에서 <font color="blue"><b>어떤 질문이 서로 유사한지 판단하는 모델</b></font>을 만드는 것<br>    <font size="2">(중복된 질문들을 잘 찾기만 한다면, 이미 잘 작성된 답변들을 사용자가 참고 가능)</font><br>    <br><br>    <font size="4"><b>DATA</b></font><br>    <hr><br>    <img src="/image/kaggle/quora/data.PNG"><br>    <img src="/image/kaggle/quora/summary.PNG"><br>  </div><br>  <br><br>  <div id="section2"><br>  <font size="5" color="black"><b>[데이터 분석]</b></font><br>  <hr color="black"><br>  <div style=" text-align:center; vertical-align: middle; padding:30px 0;"><br>    <font color="blue"><b>train data</b></font>의 <b>데이터 구성 형태</b>는<br>    다음과 같다<br>    <img src="/image/kaggle/quora/train_data.PNG"><br>    <img src="/image/kaggle/quora/train_data_struc.PNG"><br>    <b>학습 데이터의 전체 데이터 개수</b>는 다음과 같다<br>    <font size="2">전체 학습 데이터 개수 : 404290</font><br>    <br><br>    다음으로,<br>    사용할 <b>데이터의 크기</b>를 확인해보자<br>    <img src="/image/kaggle/quora/filesize.PNG"><br>    일반적인 데이터 크기와는 달리<br>    <b><font color="blue">평가 데이터</font>가 훈련 데이터보다 약 5배 큰 것</b>을 알 수 있다<br>    Quora의 경우, 질문에 대한 데이터 수가 적다면<br>    각각 검색해 중복을 찾는 편법 사용이 가능한데,<br>    이를 방지하기 위해 컴퓨터가 만든 질문쌍을 임의적으로 추가했기 때문이다<br>    <br><br>    본격적으로 분석에 들어가보자<br>    분석은 아래와 같은 순서로 진행된다<br>    <div style="background-color:rgba(0, 0, 0, 0.0470588); text-align:center; vertical-align: middle; padding:30px 0;"><br>      <font size="4"><b>[데이터 분석]</b></font><br>      <hr><br>      <a href="#sectionA"><font color="darkgray"><b>질문 중복 분석</b></font></a><br>      <a href="#sectionB"><font color="darkgray"><b>라벨 빈도 분석</b></font></a><br>      <a href="#sectionC"><font color="darkgray"><b>문자 분석</b></font></a><br>      <a href="#sectionD"><font color="darkgray"><b>단어 분석</b></font></a><br>    </div><br>    <div id="sectionA"><br>    <font size="4" color="blue"><b>[질문 중복 분석]</b></font><br>    <hr color="blue"><br>    우선 <b>각 질문</b>을 리스트로 만든 뒤,<br>    <b>하나의 Series data type</b>으로 합친다<br>    <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">train_set = pd.Series(train_data[<span class="string">'question1'</span>].tolist()+</span><br><span class="line">train_data[<span class="string">'question2'</span>].tolist()).astype(str)</span><br><span class="line">train_set.head()</span><br><span class="line">    </span><br></pre></td></tr></table></figure><br>    <img src="/image/kaggle/quora/train_set_Series.PNG" width="300"><br>    질문 쌍의 수는 40만 개이며,<br>    각각 질문이 두 개씩 있으므로 대략 80만 개의 질문이 있다<br>    <br><br>    다음으로 질문들의 <font color="blue"><b>중복 여부 확인</b></font>을 위해<br>    <b>중복을 제거한 총 질문 수</b>와 <b>반복해서 나타나는 질문의 수</b>를 <b>비교</b>한다<br>    <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 중복을 제거한 유일한 질문 값만 확인하기 위해 unique 함수 사용</span></span><br><span class="line">print(<span class="string">'교육 데이터의 총 질문수: &#123;&#125;'</span>.format(len(np.unique(train_set))))</span><br><span class="line"><span class="comment"># value_counts가 2 이상인 값의 개수를 모두 더하면 중복된 질문의 개수 확인 가능</span></span><br><span class="line">print(<span class="string">'반복해서 나타나는 질문 수: &#123;&#125;'</span>.format(np.sum(train_set.value_counts() &gt; <span class="number">1</span>)))</span><br></pre></td></tr></table></figure><br>    <img src="/image/kaggle/quora/train_중복질문확인.PNG" width="200"><br>    80만 개의 데이터에서 53만 개가 unique data이므로,<br>    27만 개가 중복되어 있음을 알 수 있고<br>    27만 개의 데이터는 11만 개의 고유한 질문으로 이루어져 있음을 알 수 있다<br>    <br><br>    이를 <font color="blue"><b>histogram</b></font>으로 확인해보자<br>    <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 그래프에 대한 이미지 사이즈 선언</span></span><br><span class="line">plt.figure(figsize=(<span class="number">12</span>,<span class="number">5</span>))</span><br><span class="line"><span class="comment"># histogram 선언</span></span><br><span class="line"><span class="comment"># bins : 히스토그램 값에대한 버킷 범위</span></span><br><span class="line"><span class="comment"># range : x축 값의 범위</span></span><br><span class="line"><span class="comment"># alpha : 그래프 색상 투명도</span></span><br><span class="line"><span class="comment"># color : 그래프 색상</span></span><br><span class="line"><span class="comment"># label : 그래프에 대한 라벨</span></span><br><span class="line"><span class="comment"># x : 중복 개수 , y : 동일한 중복 횟수를 가진 질문의 개수</span></span><br><span class="line">plt.hist(train_set.value_counts(),bins=<span class="number">50</span>,alpha=<span class="number">0.5</span>,color=<span class="string">'r'</span>,label=<span class="string">'word'</span>)</span><br><span class="line">plt.yscale(<span class="string">'log'</span>,nonposy=<span class="string">'clip'</span>) <span class="comment"># y축 범위 줄이기 위해 log 적용</span></span><br><span class="line"><span class="comment"># 그래프 제목</span></span><br><span class="line">plt.title(<span class="string">'Log-Histogram of question appearance counts'</span>)</span><br><span class="line"><span class="comment"># 그래프 x 축 라벨</span></span><br><span class="line">plt.xlabel(<span class="string">'Number of occurrences of question'</span>)</span><br><span class="line"><span class="comment"># 그래프 y축 라벨</span></span><br><span class="line">plt.ylabel(<span class="string">'Number of questions'</span>)</span><br><span class="line">    </span><br></pre></td></tr></table></figure><br>    <img src="/image/kaggle/quora/Log-Histogram_of_question_appearance_counts.PNG"><br>    결과를 살펴보면<br>    유일한 질문<font size="2">(중복 횟수가 1)</font>이 가장 많고<br>    대부분의 질문이 <b>중복 횟수가 50번 이하</b> 임을 알 수 있다<br>    매우 큰 빈도를 가진 질문은 이상치가 될 것이다<br>    <br><br>    질문의 <font color="blue"><b>중복 분포를 통계치로 수치화</b></font>해 확인해보자<br>    <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">print(<span class="string">'중복 최대 개수 : &#123;&#125;'</span>.format(np.max(train_set.value_counts())))</span><br><span class="line">print(<span class="string">'중복 최소 개수 : &#123;&#125;'</span>.format(np.min(train_set.value_counts())))</span><br><span class="line">print(<span class="string">'중복 평균 개수: &#123;:.2f&#125;'</span>.format(np.mean(train_set.value_counts())))</span><br><span class="line">print(<span class="string">'중복 표준편차: &#123;:.2f&#125;'</span>.format(np.std(train_set.value_counts())))</span><br><span class="line">print(<span class="string">'중복 중앙값: &#123;&#125;'</span>.format(np.median(train_set.value_counts())))</span><br><span class="line">print(<span class="string">'제 1사분위 중복: &#123;&#125;'</span>.format(np.percentile(train_set.value_counts(),<span class="number">25</span>)))</span><br><span class="line">print(<span class="string">'제 3사분위 중복: &#123;&#125;'</span>.format(np.percentile(train_set.value_counts(),<span class="number">75</span>)))</span><br><span class="line">    </span><br></pre></td></tr></table></figure><br>    <img src="/image/kaggle/quora/train_중복분포_수치화.PNG"><br>    중복이 발생하는 횟수의 평균이 1.5라는 것은<br>    많은 데이터가 최소 1개 이상 중복되어 있음을 의미한다<br>    즉, <b>중복이 많음</b>을 알 수 있다<br>    <br><br>    데이터의 직관적 이해를 위해,<br>    <font color="blue"><b>중복횟수 box plot</b></font>을 그려보자<br>    <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">plt.figure(figsize=(<span class="number">12</span>,<span class="number">5</span>))</span><br><span class="line"><span class="comment"># boxplot 생성</span></span><br><span class="line"><span class="comment"># plt.boxplot(여러 분포에 대한 데이터 리스트, labels = 입력한 데이터에 대한 라벨, showmeans = 평균값 마크)</span></span><br><span class="line">plt.boxplot([train_set.value_counts()],labels=[<span class="string">'counts'</span>],showmeans=<span class="keyword">True</span>)</span><br><span class="line">    </span><br></pre></td></tr></table></figure><br>    <img src="/image/kaggle/quora/질문중복발생횟수_boxplot.PNG"><br>    이상치가 너무 넓고 많이 분포해 다른 값을 확인하기가 어렵다<br>    <br><br>    이제 데이터에 어떤 단어가 많이 나오는지 확인하기 위해<br>    <font color="blue"><b>WordCloud</b></font>를 그려보자<br>    <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> wordcloud <span class="keyword">import</span> WordCloud</span><br><span class="line">cloud = WordCloud(width = <span class="number">800</span>,height=<span class="number">600</span>).generate(<span class="string">" "</span>.join(train_set.astype(str)))</span><br><span class="line">plt.figure(figsize=(<span class="number">20</span>,<span class="number">15</span>))</span><br><span class="line">plt.imshow(cloud)</span><br><span class="line">plt.axis(<span class="string">'off'</span>)</span><br><span class="line">    </span><br></pre></td></tr></table></figure><br>    <img src="/image/kaggle/quora/wordcloud.png" width="400"><br>    best, way, good, difference 등의 단어들이<br>    질문을 할 때 일반적으로 가장 많이 사용 됨을 알 수 있다<br>    <br><br>    <div id="sectionB"><br>    <font size="4" color="blue"><b>[라벨 빈도 분석]</b></font><br>    <hr color="blue"><br>    이제 데이터 라벨 <font color="blue" size="4"><b>‘is_duplicate’</b></font>에 대해 알아보자<br>    라벨에는 <b>1</b><font size="2">(질문이 중복)</font>과 <b>0</b><font size="2">(질문이 중복이 X)</font>의 경우가 존재했다<br>    라벨들의 <font color="blue"><b>횟수 그래프</b></font>를 그려보자<br>    <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">fig, axe = plt.subplots(ncols=<span class="number">1</span>)</span><br><span class="line">fig.set_size_inches(<span class="number">6</span>,<span class="number">3</span>)</span><br><span class="line">sns.countplot(train_data[<span class="string">'is_duplicate'</span>])</span><br></pre></td></tr></table></figure><br>    <img src="/image/kaggle/quora/label_데이터개수분포.PNG" width="400"><br>    총 40만 개의 데이터에서<br>    중복 X 데이터가 25만 개,<br>    중복인 데이터가 15만 개이다<br>    이 경우, <b>중복이 아닌 데이터에 의존도</b>가 높아지면서<br>    <b>데이터가 한 쪽 라벨로 편향</b>되게 되어 학습이 원활히 진행되지 않는다<br>    따라서 <b>최대한 라벨의 개수를 균형 있게 맞춰준 후 진행</b>하도록 하자<br>    <font size="2">(많은 수의 데이터를 줄임 / 적은 수의 데이터를 늘림)</font><br>    <br><br>    <div id="sectionC"><br>    <font size="4" color="blue"><b>[문자 분석]</b></font><br>    <hr color="blue"><br>    다음은 <b>문자</b> 단위로<br>    <font color="blue"><b>텍스트 데이터 길이</b></font>를 분석해보자<br>    <br><br>    <b>[문자 단위 분석]</b><br>    <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 단어 단위로 길이 분석</span></span><br><span class="line">train_length = train_set.apply(len) <span class="comment"># 각 데이터의 길이를 담은 변수 생성</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># histogram</span></span><br><span class="line">plt.figure(figsize=(<span class="number">15</span>,<span class="number">10</span>))</span><br><span class="line">plt.hist(train_length, bins=<span class="number">200</span>, range=[<span class="number">0</span>,<span class="number">200</span>], facecolor=<span class="string">'pink'</span>,normed=<span class="keyword">True</span>, label=<span class="string">'train'</span>)</span><br><span class="line">plt.title(<span class="string">"Normalised histogram of character count in questions"</span>,fontsize=<span class="number">15</span>)</span><br><span class="line">plt.legend()</span><br><span class="line">plt.xlabel(<span class="string">"Number of characters"</span>,fontsize=<span class="number">15</span>)</span><br><span class="line">plt.ylabel(<span class="string">"Probability"</span>,fontsize=<span class="number">15</span>)</span><br><span class="line">    </span><br></pre></td></tr></table></figure><br>    <img src="/image/kaggle/quora/Normalised_histogram_of_character_count_in_questions.PNG" width="500"><br>    데이터의 각 질문의 길이 분포는 15 ~ 150에 대부분 모여있으며,<br>    길이가 150에서 급격히 감소하는 것을 볼 때<br>    <b>쿼리의 질문 길이 제한이 150 정도</b>임을 추측할 수 있다<br>    <br><br>    여러가지 <font color="blue"><b>통곗값</b></font>을 확인해보자<br>    <img src="/image/kaggle/quora/질문길이_통곗값.PNG" width="200"><br>    최댓값이 평균, 중간값과 매우 큰 차이를 보인다<br>    값이 너무 큰 데이터는 제외하고 학습하자<br>    <br><br>    <img src="/image/kaggle/quora/데이터_길이_boxplot.PNG"><br>    데이터의 질문 길이 값 <font color="blue"><b>박스 플롯 그래프</b></font>의 분포를 보면<br>    문자 수의 이상치 데이터가 너무 많아 다른 값 확인이 어렵다<br>    <br><br>    <div id="sectionD"><br>    <font size="4" color="blue"><b>[단어 분석]</b></font><br>    <hr color="blue"><br>    각 데이터의 <b>단어 개수를 하나의 단위</b>로 사용해 길이 값을 분석한다<br>    단어를 나누는 <b>기준은 띄어쓰기</b>로 정의한다<br>    <br><br>    띄어쓰기를 기준으로 나눈 단어의 개수를 정의하고<br>    히스토그램을 그려보았다<br>    <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 각 데이터 단어 개수를 하나의 단위로 사용해 길이값 분석</span></span><br><span class="line"><span class="comment"># 띄어쓰기 기준으로 나눈 단어의 개수 담은 변수 정의</span></span><br><span class="line">train_word_counts = train_set.apply(<span class="keyword">lambda</span> x:len(x.split(<span class="string">' '</span>)))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 데이터 길이에 따른 질의 확률 분포 (단어 단위)</span></span><br><span class="line"><span class="comment"># histogram</span></span><br><span class="line">plt.figure(figsize=(<span class="number">15</span>,<span class="number">10</span>))</span><br><span class="line">plt.hist(train_word_counts, bins=<span class="number">50</span>, range=[<span class="number">0</span>,<span class="number">50</span>], facecolor=<span class="string">'purple'</span>,</span><br><span class="line">         normed=<span class="keyword">True</span>, label=<span class="string">'train'</span>)</span><br><span class="line">plt.title(<span class="string">"Normalised histogram of word count in questions"</span>,fontsize=<span class="number">15</span>)</span><br><span class="line">plt.legend()</span><br><span class="line">plt.xlabel(<span class="string">'Number of words'</span>,fontsize=<span class="number">15</span>)</span><br><span class="line">plt.ylabel(<span class="string">"Prabability"</span>,fontsize=<span class="number">15</span>)</span><br><span class="line">    </span><br></pre></td></tr></table></figure><br>    <img src="/image/kaggle/quora/Normalised_histogram_of_word_count_in_questions.PNG" width="500"><br>    대부분 <b>10개 정도의 단어로 구성된 데이터가 가장 많음</b>을 알 수 있다<br>    데이터의 단어 개수에 대해서 <font color="blue"><b>통곗값</b></font>을 확인해보면<br>    <br><br>    <img src="/image/kaggle/quora/단어개수통곗값.PNG"><br>    문자 단위 길이 통계와 비슷한 양상을 보인다<br>    최댓값이 중간값,평균에 큰 차이를 보인다<br>    <font color="blue"><b>박스플롯</b></font>으로 데이터 분포를 확인해보자<br>    <img src="/image/kaggle/quora/단어개수boxplot.PNG"><br>    이상치가 넓고 많이 분포되어 있음을 알 수 있다<br>    <br><br>    몇 가지 <font color="blue"><b>특정 경우에 대한 비율</b></font>을 확인해보자<br>    특수 문자 중 구두점, 물음표, 마침표가 사용된 비율과<br>    수학 기호가 사용된 비율, 대/소문자의 비율을 확인해보자<br>    <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">qmarks = np.mean(train_set.apply(<span class="keyword">lambda</span> x: <span class="string">'?'</span> <span class="keyword">in</span> x)) <span class="comment"># 물음표가 구두점</span></span><br><span class="line">math = np.mean(train_set.apply(<span class="keyword">lambda</span> x: <span class="string">'[math]'</span> <span class="keyword">in</span> x)) <span class="comment"># []</span></span><br><span class="line">fullstop = np.mean(train_set.apply(<span class="keyword">lambda</span> x: <span class="string">'.'</span> <span class="keyword">in</span> x)) <span class="comment"># 마침표</span></span><br><span class="line">capital_first = np.mean(train_set.apply(<span class="keyword">lambda</span> x: x[<span class="number">0</span>].isupper())) <span class="comment"># 첫 번째 대문자</span></span><br><span class="line">capitals = np.mean(train_set.apply(<span class="keyword">lambda</span> x: max([y.isupper() <span class="keyword">for</span> y <span class="keyword">in</span> x]))) <span class="comment"># 대문자가 몇 개</span></span><br><span class="line">numbers = np.mean(train_set.apply(<span class="keyword">lambda</span> x: max([y.isdigit() <span class="keyword">for</span> y <span class="keyword">in</span> x]))) <span class="comment"># 숫자가 몇 개</span></span><br><span class="line"></span><br><span class="line">print(<span class="string">'물음표가 있는 질문: &#123;:.2f&#125;%'</span>.format( qmarks* <span class="number">100</span>))</span><br><span class="line">print(<span class="string">'수학 태그가 있는 질문: &#123;:.2f&#125;%'</span>.format( math* <span class="number">100</span>))</span><br><span class="line">print(<span class="string">'질문이 가득 찼을 때: &#123;:.2f&#125;%'</span>.format( fullstop* <span class="number">100</span>))</span><br><span class="line">print(<span class="string">'첫 글자가 대문자인 질문: &#123;:.2f&#125;%'</span>.format( capital_first* <span class="number">100</span>))</span><br><span class="line">print(<span class="string">'대문자가 있는 질문: &#123;:.2f&#125;%'</span>.format( capitals* <span class="number">100</span>))</span><br><span class="line">print(<span class="string">'숫자가 있는 질문: &#123;:.2f&#125;%'</span>.format( numbers* <span class="number">100</span>))</span><br><span class="line">    </span><br></pre></td></tr></table></figure><br>    <img src="/image/kaggle/quora/특정경우_비율.PNG"><br>    대부분의 질문들이 물음표와 대문자로 된 첫문자를 가지고 있음을 알 수 있다<br>    <b>보편적인 특징은 제거</b>한다<br>  </div><br></div></div></div></div></div></div></font><br><font size="3"><br>  <div id="section3"><br>  <font size="5" color="black"><b>[전처리]</b></font><br>  <hr color="black"><br>  <div style=" text-align:center; vertical-align: middle; padding:30px 0;"><br>    우선, 필요한 <b>라이브러리</b>와 <b>학습 데이터</b>를 불러오자<br>    <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> tensorflow.python.keras.preprocessing.text <span class="keyword">import</span> Tokenizer</span><br><span class="line"><span class="keyword">from</span> tensorflow.python.keras.preprocessing.sequence <span class="keyword">import</span> pad_sequences</span><br><span class="line"></span><br><span class="line">DATA_IN_PATH = <span class="string">"./data_in/"</span></span><br><span class="line">train_data = pd.read_csv(DATA_IN_PATH + <span class="string">'train.csv'</span>, encoding = <span class="string">"utf-8"</span>)</span><br></pre></td></tr></table></figure><br>    먼저 <font color="blue"><b>라벨 개수의 균형</b></font>을 맞춘다<br>    <b>중복이 아닌 데이터</b>의 개수가 더 많기 때문에 해당 데이터 <b>개수를 줄인다</b><br>    <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 중복인 경우와 아닌 경우로 데이터를 나눈 후</span></span><br><span class="line"><span class="comment"># 중복이 아닌 개수가 비슷하도록 데이터의 일부를 다시 뽑음</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 라벨이 1인 경우와 0인 경우를 분리해 변수 생성</span></span><br><span class="line">train_pos_data = train_data.loc[train_data[<span class="string">'is_duplicate'</span>]==<span class="number">1</span>]</span><br><span class="line">train_neg_data = train_data.loc[train_data[<span class="string">'is_duplicate'</span>]==<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 두 변수의 길이 차이를 계산하고 샘플링 하기 위해</span></span><br><span class="line"><span class="comment"># 중복 질문의 중복X 질문(개수 더 많음)에 대한 비율 계산</span></span><br><span class="line">class_difference = len(train_neg_data) - len(train_pos_data)</span><br><span class="line">sample_frac = <span class="number">1</span> - (class_difference / len(train_neg_data))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 개수가 많은 데이터 (중복 X 질문)에 대해 구한 비율만큼 샘플링</span></span><br><span class="line"><span class="comment"># 두 데이터 간의 개수를 거의 비슷하게 만듦</span></span><br><span class="line">train_neg_data = train_neg_data.sample(frac = sample_frac)</span><br><span class="line">    </span><br></pre></td></tr></table></figure><br>    <b>개수가 많은 데이터</b>를<br>    <font color="hotpink">[<b>중복 질문</b>의 <b>중복이 아닌 질문</b>에 대한 비율]</font>로 <font color="blue"><b>샘플링</b></font>하면<br>    <b>데이터 간의 개수가 동일</b>해진다<br>    <img src="/image/kaggle/quora/after_sampling.PNG"><br>    라벨에 따라 나눠진 데이터를 <b>다시 하나로</b> 합친다<br>    <font size="2">(개수가 동일해진 데이터를 사용하면 균형있는 학습 가능)</font><br>    <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">train_data = pd.concat([train_neg_data, train_pos_data])</span><br></pre></td></tr></table></figure><br>    비율을 맞춘 데이터를 활용해 데이터 전처리를 진행한다<br>    먼저 <font color="blue" size="4"><b>문장 문자열에 대한 전처리</b></font>를 먼저 수행한다<br>    <br><br>    학습 데이터의 <b>질문 쌍을 하나의 질문 리스트로</b> 만들고,<br>    정규 표현식을 사용해 <b>구두점 및 기호를 제거</b>한 뒤<br>    모든 문자를 <b>소문자로</b> 바꿔준다<br>    <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 제거하고자 하는 기호의 집합</span></span><br><span class="line">change_filter = <span class="string">'[-=.#/?:$&#125;]'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 각 데이터에 있는 두 개의 질문을 각각 리스트 형태로 만듦</span></span><br><span class="line">question1 = [str(s) <span class="keyword">for</span> s <span class="keyword">in</span> train_data[<span class="string">'question1'</span>]]</span><br><span class="line">question2 = [str(s) <span class="keyword">for</span> s <span class="keyword">in</span> train_data[<span class="string">'question2'</span>]]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 전처리 된 질문 저장할 리스트</span></span><br><span class="line">filtered_question1 = list()</span><br><span class="line">filtered_question2 = list()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 정의한 필터에 해당하는 문자열 제거, 모든 알파벳 -&gt; 소문자 변환</span></span><br><span class="line"><span class="keyword">for</span> q <span class="keyword">in</span> question1:</span><br><span class="line">  filtered_question1.append(re.sub(change_filter,<span class="string">""</span>,q).lower())</span><br><span class="line"><span class="keyword">for</span> q <span class="keyword">in</span> question2:</span><br><span class="line">  filtered_question2.append(re.sub(change_filter,<span class="string">""</span>,q).lower())</span><br><span class="line">    </span><br></pre></td></tr></table></figure><br>    다음으로 <font color="blue"><b>토크나이징</b></font>을 진행한다<br>    두 질문에 대해 토크나이징 방식을 동일하게 진행하고,<br>    <b>두 질문을 합쳐<br>    전체 단어 사전</b>을 만들기 위해<br>    <br><br>    <b><font color="hotpink">토크나이징 객체</font>를 만들 때에는<br>    두 질문 텍스트를 합친 리스트에 대해</b> 적용하고,<br>    <b><font color="hotpink">토크나이징</font></b>은 해당 객체를 사용해<br>    <b>각 질문에 대해 따로</b> 진행한다<br>    <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 토크나이징 객체 생성</span></span><br><span class="line">tokenizer = Tokenizer()</span><br><span class="line">tokenizer.fit_on_texts(filtered_question1 + filtered_question2)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 생성한 토크나이징 객체를 두 질문 리스트에 적용</span></span><br><span class="line"><span class="comment"># 각 질문을 토크나이징</span></span><br><span class="line"><span class="comment"># 단어를 인덱스로 변환</span></span><br><span class="line">question1_sequence = tokenizer.texts_to_sequences(filtered_question1)</span><br><span class="line">question2_sequence = tokenizer.texts_to_sequences(filtered_question2)</span><br><span class="line">    </span><br></pre></td></tr></table></figure><br>    모델 적용을 위해 <font color="blue"><b>패딩과정</b></font>을 거친다<br>    최대 길이 보다 긴 질문은 자르고,<br>    짧은 질문의 부족한 부분은 0으로 채워준다<br>    <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 데이터 분석에서 확인했던 단어 개수의 99퍼센트 값</span></span><br><span class="line"><span class="comment"># 이상치를 뺀 나머지를 포함하기 위해서임</span></span><br><span class="line">MAX_SEQUENCE_LENGTH = <span class="number">31</span></span><br><span class="line"></span><br><span class="line">q1_data = pad_sequences(question1_sequence,maxlen=MAX_SEQUENCE_LENGTH,</span><br><span class="line">padding=<span class="string">'post'</span>)</span><br><span class="line">q2_data = pad_sequences(question2_sequence,maxlen=MAX_SEQUENCE_LENGTH,</span><br><span class="line">padding=<span class="string">'post'</span>)</span><br><span class="line">    </span><br></pre></td></tr></table></figure><br>    <img src="/image/kaggle/quora/after_preprocessing.PNG"><br>    전처리가 끝난 데이터를 저장하기 전,<br>    라벨값과 단어 사전 저장을 위해 값을 저장한다<br>    <b>단어 사전과 <b>전체 단어의 개수</b>는 <b>딕셔너리 형태</b>로 저장한다<br>    <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">word_vocab = &#123;&#125;</span><br><span class="line">word_vocab = tokenizer.word_index</span><br><span class="line"></span><br><span class="line">labels = np.array(train_data[<span class="string">'is_duplicate'</span>],dtype=int)</span><br><span class="line"></span><br><span class="line">data_configs = &#123;&#125;</span><br><span class="line">data_configs[<span class="string">'vocab'</span>] = word_vocab</span><br><span class="line">data_configs[<span class="string">'vocab_size'</span>] = len(word_vocab) + <span class="number">1</span></span><br><span class="line">    </span><br></pre></td></tr></table></figure><br>    각 데이터를 모델링 과정에서 사용할 수 있도록 저장한다<br>    <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">TRAIN_Q1_DATA = <span class="string">'q1_train.npy'</span></span><br><span class="line">TRAIN_Q2_DATA = <span class="string">'q2_train.npy'</span></span><br><span class="line">TRAIN_LABEL_DATA = <span class="string">'label_train.npy'</span></span><br><span class="line">DATA_CONFIGS = <span class="string">'data_configs.npy'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 각 질문과 라벨 데이터 저장</span></span><br><span class="line">np.save(open(DATA_IN_PATH + TRAIN_Q1_DATA, <span class="string">'wb'</span>),q1_data)</span><br><span class="line">np.save(open(DATA_IN_PATH + TRAIN_Q2_DATA, <span class="string">'wb'</span>),q2_data)</span><br><span class="line">np.save(open(DATA_IN_PATH + TRAIN_LABEL_DATA, <span class="string">'wb'</span>),labels)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 딕셔너리 형태의 데이터 정보 json 파일로 저장</span></span><br><span class="line">json.dump(data_configs, open(DATA_IN_PATH + DATA_CONFIGS,<span class="string">'w'</span>))</span><br></pre></td></tr></table></figure><br>    <br><br>    <font color="blue" size="4"><b>평가 데이터 전처리</b></font><br>    <hr><br>    평가 데이터 역시 동일한 방법으로 진행한다<br>    <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#-전처리할 평가 데이터 불러오기</span></span><br><span class="line">test_data = pd.read_csv(DATA_IN_PATH + <span class="string">'test.csv'</span>, encoding=<span class="string">'utf-8'</span>)</span><br><span class="line">valid_ids = [type(x) == int <span class="keyword">for</span> x <span class="keyword">in</span> test_data.test_id]</span><br><span class="line">test_data = test_data[valid_ids].drop_duplicates()</span><br><span class="line"></span><br><span class="line"><span class="comment"># ------------------------텍스트 정제 과정------------------------</span></span><br><span class="line">test_question1 = [str(s) <span class="keyword">for</span> s <span class="keyword">in</span> test_data[<span class="string">'question1'</span>]]</span><br><span class="line">test_question2 = [str(s) <span class="keyword">for</span> s <span class="keyword">in</span> test_data[<span class="string">'question2'</span>]]</span><br><span class="line"></span><br><span class="line">filtered_test_question1 = list()</span><br><span class="line">filtered_test_question2 = list()</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> q <span class="keyword">in</span> test_question1:</span><br><span class="line">    filtered_test_question1.append(re.sub(change_filter,<span class="string">""</span>,q).lower())</span><br><span class="line"><span class="keyword">for</span> q <span class="keyword">in</span> test_question2:</span><br><span class="line">    filtered_test_question2.append(re.sub(change_filter,<span class="string">""</span>,q).lower())</span><br><span class="line"></span><br><span class="line"><span class="comment"># ------------------------패딩 처리------------------------</span></span><br><span class="line">MAX_SEQUENCE_LENGTH = <span class="number">11</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 이전 학습 데이터의 객체 사용 &gt; 동일한 인덱스 가짐</span></span><br><span class="line">test_question1_sequence = tokenizer.texts_to_sequences(filtered_test_question1)</span><br><span class="line">test_question2_sequence = tokenizer.texts_to_sequences(filtered_test_question2)</span><br><span class="line"></span><br><span class="line">test_q1_data = pad_sequences(test_question1_sequence, maxlen=MAX_SEQUENCE_LENGTH, padding=<span class="string">'post'</span>)</span><br><span class="line">test_q2_data = pad_sequences(test_question2_sequence, maxlen=MAX_SEQUENCE_LENGTH, padding=<span class="string">'post'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 평가 데이터의 경우 라벨이 존재 하지 X &gt;&gt; 라벨 저장 필요 X</span></span><br><span class="line"><span class="comment"># 단어 사전 정보 역시 학습 데이터 과정에서 저장</span></span><br><span class="line"><span class="comment"># 평가 데이터의 id 값 필요 &gt;&gt; 배열 생성</span></span><br><span class="line">test_id = np.array(test_data[<span class="string">'test_id'</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment">#------------------------ 전처리한 데이터 파일 저장------------------------</span></span><br><span class="line"><span class="comment"># 두 개의 질문 데이터 &amp; 평가 id 값 numpy 파일로 저장</span></span><br><span class="line">TEST_Q1_DATA = <span class="string">'test_q1.npy'</span></span><br><span class="line">TEST_Q2_DATA = <span class="string">'test_q2.npy'</span></span><br><span class="line">TEST_ID_DATA = <span class="string">'test_id.npy'</span></span><br><span class="line"></span><br><span class="line">np.save(open(DATA_IN_PATH + TEST_Q1_DATA, <span class="string">'wb'</span>),test_q1_data)</span><br><span class="line">np.save(open(DATA_IN_PATH + TEST_Q2_DATA, <span class="string">'wb'</span>),test_q2_data)</span><br><span class="line">np.save(open(DATA_IN_PATH + TEST_ID_DATA, <span class="string">'wb'</span>),test_id)</span><br></pre></td></tr></table></figure><br>  </b></div><br>  <br><br>  <div id="section4"><br>  <font size="5" color="black"><b>[XGboost Model]</b></font><br>  <hr color="black"><br>  <div style=" text-align:center; vertical-align: middle; padding:30px 0;"><br>    <font color="hotpink" size="4"><b>XG 부스트</b></font>란 ‘eXtream Gradient Boosting’의 약자로<br>    앙상블의 <b>부스팅 기법</b>을 사용하는 방법이다<br>    <br><br>    <b>앙상블 기법</b>이란<br>    여러 개의 학습 알고리즘을 사용해 더 좋은 성능을 얻는 방법으로,<br>    <b>배깅</b>과 <b>부스팅</b>이 존재한다<br>    <img src="/image/kaggle/quora/bagging_boosting.png"><br>    <img src="/image/kaggle/quora/bagging_boosting_table.PNG"><br>    <font color="hotpink" size="4"><b>XG 부스트</b></font>는 부스팅 기법 중,<br>    <b>Tree Boosting<font size="2">(트리 부스팅)</font></b> 기법을 활용한 모델이다<br>    <img src="/image/kaggle/quora/treeboosting.PNG"><br>    <font color="blue" size="4"><b>Tree Boosting</b></font>은<br>    여러 개의 의사 결정 트리를 사용하지만 단순히 결과를 평균 내지 않고,<br>    결과를 보고 <b>오답에 대해 가중치를 부여</b>한다<br>    <b>가중치가 적용된 오답이 정답이 될 수 있도록</b> 결과를 만들고<br>    해당 <b>결과에 대한 다른 오답을 찾는 작업</b>을 <b>반복</b>하여 진행한다<br>    <br><br>    <font color="hotpink" size="4"><b>XG 부스트</b></font>는 이러한 트리 부스팅 방식에<br>    <font color="blue"><b>경사 하강법</b></font>을 적용해 최적화 하는 방식이다<br>    의사 결정 트리 구성 시, <b>병렬 처리</b>를 사용하기 때문에<br>    연산량이 줄어 <b>빠른 학습</b>이 가능하다<br>    <br><br>    <hr><br>    본격적으로 <font color="hotpink" size="4"><b>XG boost 모델 구현</b></font>을 해보자!<br>    우선 <b>전처리한 데이터</b>를 불러온다<br>    <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">DATA_IN_PATH = <span class="string">"./data_in/"</span></span><br><span class="line"></span><br><span class="line">TRAIN_Q1_DATA_FILE = <span class="string">"q1_train.npy"</span></span><br><span class="line">TRAIN_Q2_DATA_FILE = <span class="string">"q2_train.npy"</span></span><br><span class="line">TRAIN_LABEL_DATA_FILE = <span class="string">"label_train.npy"</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># train data 가져오기</span></span><br><span class="line">train_q1_data = np.load(open(DATA_IN_PATH + TRAIN_Q1_DATA_FILE, <span class="string">'rb'</span>))</span><br><span class="line">train_q2_data = np.load(open(DATA_IN_PATH + TRAIN_Q2_DATA_FILE, <span class="string">'rb'</span>))</span><br><span class="line">train_labels = np.load(open(DATA_IN_PATH + TRAIN_LABEL_DATA_FILE, <span class="string">'rb'</span>))</span><br></pre></td></tr></table></figure><br>    현재 각 데이터의 두 질문이 따로 구성되어 있는 상태인데<br>    이를 하나씩 묶어 <b>하나의 질문 쌍으로</b> 만든다<br>    즉, 질문[A]와 질문[B]를 [[A],[B]]의 형태로 만들어준다<br>    <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">train_input = np.stack((train_q1_data,train_q2_data),axis=<span class="number">1</span>)</span><br></pre></td></tr></table></figure><br>    해당 데이터의 shape를 출력해보면<br>    <img src="/image/kaggle/quora/질문쌍.PNG"><br>    약 30만 개의 전체 데이터 중,<br>    <b>두 질문이 각각 11개의 질문 길이를 가지고 있음</b>을 확인할 수 있다<br>    <br><br>    다음으로 <b>학습 데이터의 20%를 모델 검증 데이터로</b> 분리한다<br>    <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split</span><br><span class="line"></span><br><span class="line">train_input, eval_input, train_label, eval_label = train_test_split(train_input, train_labels,test_size=<span class="number">0.2</span>, random_state=<span class="number">4242</span>)</span><br></pre></td></tr></table></figure><br>    XG boost 라이브러리를 불러와 모델을 구현한다<br>    우선, 모델에 적용하기 위해 입력값을 DMatrix 형태로 만든다<br>    <font size="2">(xgboost 모델을 사용하려면 입력값을 xgb라이브러리의 데이터 형식인 DMatrix 형태로 만들어야 함)</font><br>    <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> xgboost <span class="keyword">as</span> xgb</span><br><span class="line"></span><br><span class="line"><span class="comment"># xgboost 모델 사용을 위해</span></span><br><span class="line"><span class="comment"># 입력값을 DMatrix 형태로 만듦 - 학습/검증 데이터 모두 적용</span></span><br><span class="line"><span class="comment"># 각 데이터에 대해 sum함수 : 각 데이터의 두 질문을 하나의 값으로 만듦</span></span><br><span class="line">train_data = xgb.DMatrix(train_input.sum(axis=<span class="number">1</span>), label=train_label)</span><br><span class="line">eval_data = xgb.DMatrix(eval_input.sum(axis=<span class="number">1</span>),label=eval_label)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 두 개의 데이터를 묶어서 하나의 리스트로 만듦</span></span><br><span class="line"><span class="comment"># 학습과 검증 데이터는 각 상태의 문자열과 함께 튜플 형태로 구성</span></span><br><span class="line">data_list = [(train_data,<span class="string">'train'</span>),(eval_data,<span class="string">'valid'</span>)]</span><br></pre></td></tr></table></figure><br>    모델을 만들고 학습하기 위해 <b>필요한 옵션은 딕셔너리</b>를 만들어 넣어둔다<br>    이후 <font color="blue"><b>모델을 생성</b></font>하고 <font color="blue"><b>학습</b></font>하는 과정을 진행한다<br>    <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 옵션 저장할 딕셔너리</span></span><br><span class="line">params = &#123;&#125;</span><br><span class="line"><span class="comment"># 목적 함수 : 이진 로지스틱 함수</span></span><br><span class="line">params[<span class="string">'objective'</span>] = <span class="string">'binary:logistic'</span></span><br><span class="line"><span class="comment"># 평가 지표 :rmse (Root mean squared error)</span></span><br><span class="line">params[<span class="string">'eval_metric'</span>] = <span class="string">'rmse'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># num_boost_round : 데이터를 반복하는 횟수</span></span><br><span class="line"><span class="comment"># evals = 모델 검증 시, 사용할 전체 데이터 쌍</span></span><br><span class="line">bst = xgb.train(params,train_data,num_boost_round=<span class="number">10000</span>,evals=data_list,early_stopping_rounds=<span class="number">10</span>)</span><br></pre></td></tr></table></figure><br>    <img src="/image/kaggle/quora/model_train.PNG"><br>    613 스텝에서 학습이 끝났다<br>    이는 더이상 <b>에러가 떨어지지 않아 조기 멈춤</b>한 것이다<br>    이렇게 학습한 모델을 사용해 <font color="blue"><b>평가 데이터를 예측</b></font>하고<br>    예측 결과를 <b>캐글에 제출할 수 있도록 파일로</b> 만든다<br>    <br><br>    우선 <font color="blue"><b>전처리한 평가 데이터</b></font>를 불러온다<br>    <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">TEST_Q1_DATA_FILE = <span class="string">"test_q1.npy"</span></span><br><span class="line">TEST_Q2_DATA_FILE = <span class="string">"test_q2.npy"</span></span><br><span class="line">TEST_ID_DATA_FILE = <span class="string">"test_id.npy"</span></span><br><span class="line"></span><br><span class="line">test_q1_data = np.load(open(DATA_IN_PATH + TEST_Q1_DATA_FILE, <span class="string">'rb'</span>))</span><br><span class="line">test_q2_data = np.load(open(DATA_IN_PATH + TEST_Q2_DATA_FILE, <span class="string">'rb'</span>))</span><br><span class="line">test_id_data = np.load(open(DATA_IN_PATH + TEST_ID_DATA_FILE, <span class="string">'rb'</span>))</span><br></pre></td></tr></table></figure><br>    불러온 평가 데이터를 XG boost 모델에 적용할 수 있도록<br>    <b>Matrix 형태로 변환</b> 후,<br>    모델의 <font color="blue"><b>predict 함수</b></font>에 적용한다<br>    <font size="2">(predict 함수 error는 모델을 저장했다 불러오면 발생하지 않는다)</font><br>    <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 이거 추가하면 predict 코드 에러 X</span></span><br><span class="line">bst.save_model(<span class="string">"xgboost_model"</span>)</span><br><span class="line">bst = xgb.Booster(params)</span><br><span class="line">bst.load_model(<span class="string">"xgboost_model"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># XG boost model에 적용이 가능하도록 DMatrix로 변환, 모델의 predict 함수에 적용</span></span><br><span class="line">test_input = np.stack((test_q1_data,test_q2_data),axis=<span class="number">1</span>)</span><br><span class="line">test_data = xgb.DMatrix(test_input.sum(axis=<span class="number">1</span>))</span><br><span class="line">test_predict = bst.predict(test_data)</span><br></pre></td></tr></table></figure><br>    예측한 <b>결괏값을 형식에 맞게 파일로</b> 만든다<br>    평가 데이터의 id값과 예측값을 dataframe으로 만든 후<br>    CSV로 저장한다<br>    <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line">DATA_OUT_PATH  = <span class="string">"./data_out/"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(DATA_OUT_PATH):</span><br><span class="line">    os.makedirs(DATA_OUT_PATH)</span><br><span class="line"></span><br><span class="line">output = pd.DataFrame(&#123;<span class="string">"test_id"</span>: test_id_data,<span class="string">"is_duplicate"</span>: test_predict&#125;)</span><br><span class="line">output.to_csv(DATA_OUT_PATH + <span class="string">'simple_xgb.csv'</span>,index=<span class="keyword">False</span>)</span><br></pre></td></tr></table></figure><br>    <div id="section5"><br>    캐글 제출 결과,<br>    다음과 같은 점수를 받았다<br>    <img src="/image/kaggle/quora/xgboost_score.PNG"><br>    다음에는,<br>    CNN과 MA-LSTM 모델을 활용해봐야겠다 :)<br>  </div><br></div></div></div></font>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="https://NAEJINHJ.github.com/2019/03/14/quora_data_analy_and_xgboost_model/" data-id="cjtbk663e005vvsjj01ejmb1l" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+    
+    </section>
+
+
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>follow:</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="twitter" href="https://www.twitter.com" target="_blank" rel="noopener">
+                        <i class="icon fa fa-twitter"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="facebook" href="https://www.facebook.com" target="_blank" rel="noopener">
+                        <i class="icon fa fa-facebook"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="google-plus" href="https://www.google.co.kr" target="_blank" rel="noopener">
+                        <i class="icon fa fa-google-plus"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/NAEJINHJ/naejinhj.github.io.git" target="_blank" rel="noopener">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+    
+        <a href="/2019/03/09/botframework-chatbot/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">older</strong>
+        <p class="article-nav-title">마카롱 주문 챗봇 with Bot Framework</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">recents</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/03/14/quora_data_analy_and_xgboost_model/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/image/kaggle/quora/quora_descript.PNG)" alt="Quora Question Pairs : 텍스트 유사도 분석 - 분석/XGboostModel" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Project/">Project</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/Project/Kaggle/">Kaggle</a></p>
+                            <p class="item-title"><a href="/2019/03/14/quora_data_analy_and_xgboost_model/" class="title">Quora Question Pairs : 텍스트 유사도 분석 - 분석/XGboostModel</a></p>
+                            <p class="item-date"><time datetime="2019-03-13T15:25:42.876Z" itemprop="datePublished">2019-03-14</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/03/09/botframework-chatbot/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/image/NLP/botframework/macaroonbot.gif)" alt="마카롱 주문 챗봇 with Bot Framework" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Project/">Project</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/Project/NLP/">NLP</a></p>
+                            <p class="item-title"><a href="/2019/03/09/botframework-chatbot/" class="title">마카롱 주문 챗봇 with Bot Framework</a></p>
+                            <p class="item-date"><time datetime="2019-03-09T06:57:25.514Z" itemprop="datePublished">2019-03-09</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/03/07/chatbot-modeling/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/image/NLP/chatbot/chatbot.PNG)" alt="딥러닝 모델을 통한 챗봇 만들기 : 모델링" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/BIGDATA/">BIGDATA</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/BIGDATA/NLP/">NLP</a></p>
+                            <p class="item-title"><a href="/2019/03/07/chatbot-modeling/" class="title">딥러닝 모델을 통한 챗봇 만들기 : 모델링</a></p>
+                            <p class="item-date"><time datetime="2019-03-07T02:58:59.337Z" itemprop="datePublished">2019-03-07</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/03/03/chatbot_data_analy/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/image/NLP/chatbot/chatbot.PNG)" alt="딥러닝 모델을 통한 챗봇 만들기 : 데이터 분석" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/BIGDATA/">BIGDATA</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/BIGDATA/NLP/">NLP</a></p>
+                            <p class="item-title"><a href="/2019/03/03/chatbot_data_analy/" class="title">딥러닝 모델을 통한 챗봇 만들기 : 데이터 분석</a></p>
+                            <p class="item-date"><time datetime="2019-03-02T16:09:29.346Z" itemprop="datePublished">2019-03-03</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/03/02/imdb-word2vec/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/image/NLP/kaggle_BOW.PNG)" alt="Bag of Words Meets Bags of Popcorn : word2vec" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Project/">Project</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/Project/Kaggle/">Kaggle</a></p>
+                            <p class="item-title"><a href="/2019/03/02/imdb-word2vec/" class="title">Bag of Words Meets Bags of Popcorn : word2vec</a></p>
+                            <p class="item-date"><time datetime="2019-03-02T12:49:25.539Z" itemprop="datePublished">2019-03-02</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">categories</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/BIGDATA/">BIGDATA</a><span class="category-list-count">7</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/BIGDATA/DATA/">DATA</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/BIGDATA/Modeling/">Modeling</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/BIGDATA/Modeling/R/">R</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/BIGDATA/NLP/">NLP</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Coding-Test/">Coding Test</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Coding-Test/Python/">Python</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/DB/">DB</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/DB/NoSQL/">NoSQL</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/LOG/">LOG</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Project/">Project</a><span class="category-list-count">10</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Project/BIGDATA/">BIGDATA</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Project/C/">C#</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Project/JAVA/">JAVA</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Project/Kaggle/">Kaggle</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Project/Kaggle/NLP/">NLP</a><span class="category-list-count">3</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Project/NLP/">NLP</a><span class="category-list-count">1</span></li></ul></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">archives</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">2</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">tags</h3>
+        <div class="widget">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/BIGDATA/">BIGDATA</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Bot-Framework/">Bot_Framework</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/">C#</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Chatbot/">Chatbot</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DB/">DB</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA/">JAVA</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kaggle/">Kaggle</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LOG/">LOG</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MongoDB/">MongoDB</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NLP/">NLP</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NoSQL/">NoSQL</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PLAN/">PLAN</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Project/">Project</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/R/">R</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/coding-test/">coding test</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/data/">data</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/game/">game</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/log/">log</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/modeling/">modeling</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a><span class="tag-list-count">10</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/test/">test</a><span class="tag-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-float">
+        <h3 class="widget-title">tag cloud</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/BIGDATA/" style="font-size: 20px;">BIGDATA</a> <a href="/tags/Bot-Framework/" style="font-size: 10px;">Bot_Framework</a> <a href="/tags/C/" style="font-size: 10px;">C#</a> <a href="/tags/Chatbot/" style="font-size: 12.5px;">Chatbot</a> <a href="/tags/DB/" style="font-size: 10px;">DB</a> <a href="/tags/JAVA/" style="font-size: 10px;">JAVA</a> <a href="/tags/Kaggle/" style="font-size: 13.75px;">Kaggle</a> <a href="/tags/LOG/" style="font-size: 10px;">LOG</a> <a href="/tags/MongoDB/" style="font-size: 10px;">MongoDB</a> <a href="/tags/NLP/" style="font-size: 17.5px;">NLP</a> <a href="/tags/NoSQL/" style="font-size: 10px;">NoSQL</a> <a href="/tags/PLAN/" style="font-size: 10px;">PLAN</a> <a href="/tags/Project/" style="font-size: 15px;">Project</a> <a href="/tags/R/" style="font-size: 15px;">R</a> <a href="/tags/coding-test/" style="font-size: 10px;">coding test</a> <a href="/tags/data/" style="font-size: 10px;">data</a> <a href="/tags/game/" style="font-size: 11.25px;">game</a> <a href="/tags/log/" style="font-size: 10px;">log</a> <a href="/tags/modeling/" style="font-size: 16.25px;">modeling</a> <a href="/tags/python/" style="font-size: 18.75px;">python</a> <a href="/tags/test/" style="font-size: 10px;">test</a>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">links</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+            
+        
+    </div>
+</aside>
+
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                  <a href="/" style="font-size:20px;color:#fff; text-decoration: none;">NA'rchive</a>
+                </h1>
+                <p>&copy; 2019 Hyejin</p>
+                <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+            </div>
+            <div class="footer-plugins">
+              
+    
+
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+        
+    
+    <script>
+    var disqus_shortname = 'hexo-theme-hueman';
+    
+    
+    var disqus_url = 'https://NAEJINHJ.github.com/2019/03/14/quora_data_analy_and_xgboost_model/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>
