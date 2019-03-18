@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+
+    
+
+    
+    <title>Bag of Words Meets Bags of Popcorn : Random Forest | NA&#39;rchive</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <meta name="keywords" content="python,BIGDATA,NLP,Kaggle">
+    
+    <meta name="description" content="[목차]              Random Forest      Modeling          [Random Forest]        Random Forest에서는    여러 개의 의사결정 트리의 결괏값을 평균낸 것을 결과로 사용한다    이를 통해 분류 혹은 회귀가 가능하다        의사 결정 트리란    트리 구조와 같은 형태로 이">
+<meta name="keywords" content="python,BIGDATA,NLP,Kaggle">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Bag of Words Meets Bags of Popcorn : Random Forest">
+<meta property="og:url" content="https://NAEJINHJ.github.com/2019/03/03/random-Forest/index.html">
+<meta property="og:site_name" content="NA&#39;rchive">
+<meta property="og:description" content="[목차]              Random Forest      Modeling          [Random Forest]        Random Forest에서는    여러 개의 의사결정 트리의 결괏값을 평균낸 것을 결과로 사용한다    이를 통해 분류 혹은 회귀가 가능하다        의사 결정 트리란    트리 구조와 같은 형태로 이">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://naejinhj.github.com/image/NLP/kaggle_BOW.PNG">
+<meta property="og:updated_time" content="2019-03-18T09:57:17.922Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Bag of Words Meets Bags of Popcorn : Random Forest">
+<meta name="twitter:description" content="[목차]              Random Forest      Modeling          [Random Forest]        Random Forest에서는    여러 개의 의사결정 트리의 결괏값을 평균낸 것을 결과로 사용한다    이를 통해 분류 혹은 회귀가 가능하다        의사 결정 트리란    트리 구조와 같은 형태로 이">
+<meta name="twitter:image" content="https://naejinhj.github.com/image/NLP/kaggle_BOW.PNG">
+    
+
+    
+
+    
+        <link rel="icon" href="/css/images/favicon.ico">
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/titillium-web/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/3.3.1/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+    
+
+
+</head>
+</html>
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                  <h1 class="logo-wrap">
+                     <a href="/" class="logo"></a>
+                 </h1>
+                 
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item">
+                                    <a class="main-nav-list-link" href="/">Home</a>
+                                </li>
+                            
+                                        <ul class="main-nav-list"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/BIGDATA/">BIGDATA</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/BIGDATA/DATA/">DATA</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/BIGDATA/Modeling/">Modeling</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/BIGDATA/NLP/">NLP</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Coding-Test/">Coding Test</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Coding-Test/Python/">Python</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/DB/">DB</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/DB/NoSQL/">NoSQL</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/LOG/">LOG</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Project/">Project</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Project/BIGDATA/">BIGDATA</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Project/C/">C#</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Project/JAVA/">JAVA</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Project/Kaggle/">Kaggle</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Project/NLP/">NLP</a></li></ul></li></ul>
+                                    
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something...">
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/Project/">Project</a><i class="icon fa fa-angle-right"></i><a class="page-title-link" href="/categories/Project/Kaggle/">Kaggle</a><i class="icon fa fa-angle-right"></i><a class="page-title-link" href="/categories/Project/Kaggle/NLP/">NLP</a>
+    </h1>
+</div>
+
+                        <div class="main-body-content">
+                            <article id="post-random-Forest" class="article article-single article-type-post" itemscope="" itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        Bag of Words Meets Bags of Popcorn : Random Forest
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+    <div class="article-date">
+        <a href="/2019/03/03/random-Forest/" class="article-date">
+            <time datetime="2019-03-02T16:08:40.914Z" itemprop="datePublished">2019-03-03</time>
+        </a>
+    </div>
+
+		
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/BIGDATA/">BIGDATA</a>, <a class="tag-link" href="/tags/Kaggle/">Kaggle</a>, <a class="tag-link" href="/tags/NLP/">NLP</a>, <a class="tag-link" href="/tags/python/">python</a>
+    </div>
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            <p><img src="/image/NLP/kaggle_BOW.PNG"></p>
+<font size="3"><br>  <div style="background-color:rgba(0, 0, 0, 0.0470588); text-align:center; vertical-align: middle; padding:30px 0;"><br>    <font size="4"><b>[목차]</b></font><br>    <hr><br>    <font size="4"><br>      <a href="#section1"><b><font color="hotpink">Random Forest</font></b></a><br>      <a href="#section2"><font color="hotpink"><b>Modeling</b></font></a><br>    </font><br>  </div><br>  <div id="section1"><br>  <font size="5"><b>[Random Forest]</b></font><br>  <hr color="black"><br>  <div style=" text-align:center; vertical-align: middle; padding:30px 0;"><br>    <font color="hotpink" size="4"><b>Random Forest</b></font>에서는<br>    <b>여러 개의 의사결정 트리의 결괏값을 평균낸 것</b>을 결과로 사용한다<br>    이를 통해 분류 혹은 회귀가 가능하다<br>    <img src="/image/kaggle/imdb/random_forest/random_forest.png"><br>    <font color="hotpink"><b>의사 결정 트리</b></font>란<br>    <b>트리 구조</b>와 같은 형태로 이루어진 알고리즘으로<br>    각 <b>노드는 하나의 질문</b>이 된다<br>    질문에 따라 다음 노드가 달라지며,<br>    몇 개의 질문이 끝난 후에 결과가 나오는 형태이다<br>    <img src="/image/kaggle/imdb/random_forest/DecisionTree.png" width="450"><br>    랜덤 포레스트를 통해 강아지 관련 문장을 찾아보자<br>    다음과 같은 두 개의 트리를 만들 수 있을 것이다<br>    <img src="/image/kaggle/imdb/random_forest/random_forest_example.PNG" width="650"><br>    실제 랜덤 포레스트 모델에서는 <b>많은 의사결정 트리</b>들이 만들어지고<br>    각 <b>결과들의 평균</b>을 내서 결과를 만든다 :)<br>  </div><br>  <div id="section2"><br>  <font size="5"><b>[Modeling]</b></font><br>  <hr color="black"><br>  <div style=" text-align:center; vertical-align: middle; padding:30px 0;"><br>    <font color="hotpink" size="4"><b>랜덤 포레스트</b></font>에서는<br>    <font color="blue"><b>CountVectorizer</b></font>를 사용해 모델의 입력값을 만든다<br>    <font size="2">(선형회귀 모델은 TF-IDF와 word2vec 활용해 벡터화한 데이터가 입력값)</font><br>    <hr><br>    <font color="hotpink"><b>CountVectorizer</b></font>는<br>    텍스트 데이터에서 <b><font color="blue">횟수</font>를 기준으로 특징을 추출</b>하는 방법이다<br>    어떤 단위의 횟수를 셀 것인지는 선택 사항이다<br>    <font size="2">(단위 : 단어, 문자)</font><br>    보통은 문장을 입력 받아 <b>단어의 횟수</b>를 측정한 뒤 벡터로 만드는 방식을 사용한다<br>    <br><br>    <font color="blue"><b>예시</b></font>를 살펴보자<br>    모듈을 불러오고,<br>    텍스트 데이터 리스트를 설정한 뒤, <b>CountVectorizer 객체</b>를 생성한다<br>    <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.feature_extraction.text <span class="keyword">import</span> CountVectorizer</span><br><span class="line"></span><br><span class="line">text_data = [<span class="string">"나는 배가 고프다"</span>,<span class="string">"내일 점심 뭐먹지"</span>,<span class="string">"내일 공부해야겠다"</span>,<span class="string">"점심 먹고 공부해야지"</span>]</span><br><span class="line">count_vectorizer = CountVectorizer()</span><br><span class="line"></span><br><span class="line">count_vectorizer.fit(text_data)</span><br><span class="line">print(count_vectorizer.vocabulary_)</span><br></pre></td></tr></table></figure><br>    생성한 객체에 <b>fit 함수</b>를 사용해 데이터를 적용하면<br>    자동으로 <b>단어 사전을 생성</b>한다<br>    <img src="/image/kaggle/imdb/random_forest/countvectorizer_example.PNG"><br>    텍스트 데이터 중 하나만 선택해 벡터로 만들어보자<br>    <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sentence = [text_data[<span class="number">0</span>]] <span class="comment"># 나는 배가 고프다</span></span><br><span class="line">print(count_vectorizer.transform(sentence).toarray())</span><br></pre></td></tr></table></figure><br>    <img src="/image/kaggle/imdb/random_forest/countvectorizer_example_result.PNG" size="150"><br>    각 단어가 한 번씩 나왔으므로<br>    해당 단어 사전 순서에 맞게 1 값을 가진다<br>    <br><br>    횟수를 사용해 벡터를 만들기 때문에<br>    <b>직관적이고 간단</b>해서 여러 상황에서 사용할 수 있으나<br>    단순히 횟수만을 특징으로 잡기 때문에<br>    <b>큰 의미가 없지만 자주 사용되는 단어</b>들<font size="2">(조사, 지시대명사)</font>가 <b>높은 특징값</b>을 가지기 때문에<br>    유의미하게 사용하기 어려울 수 있다<br>    <hr><br>    본격적으로 <font color="hotpink" size="4"><b>모델링</b></font>에 들어가보자 :)<br>    우선 데이터를 불러온다<br>    <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> seaborn <span class="keyword">as</span> sns</span><br><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split</span><br><span class="line"></span><br><span class="line">DATA_IN_PATH = <span class="string">"./data_in/"</span></span><br><span class="line">TRAIN_CLEAN_DATA = <span class="string">'train_clean.csv'</span></span><br><span class="line"></span><br><span class="line">train_data = pd.read_csv(DATA_IN_PATH + TRAIN_CLEAN_DATA)</span><br><span class="line">reviews = list(train_data[<span class="string">'review'</span>])</span><br><span class="line">y = np.array(train_data[<span class="string">'sentiment'</span>])</span><br></pre></td></tr></table></figure><br>    <b>불러온 데이터를 특징 벡터로</b> 만들어야 모델 입력값으로 사용할 수 있으므로<br>    <font color="hotpink"><b>CountVectorizer</b></font>를 불러와 객체를 생성한 뒤<br>    데이터에 적용하자<br>    <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.feature_extraction.text <span class="keyword">import</span> CountVectorizer</span><br><span class="line"></span><br><span class="line"><span class="comment"># analyzer : 분석 단위 (여기서는 word 단위)</span></span><br><span class="line"><span class="comment"># max_features : 각 벡터 최대 길이 (5000으로 설정)</span></span><br><span class="line">vectorizer = CountVectorizer(analyzer=<span class="string">"word"</span>, max_features=<span class="number">5000</span>)</span><br><span class="line"></span><br><span class="line">train_data_features = vectorizer.fit_transform(reviews)</span><br></pre></td></tr></table></figure><br>    train_data_features가 어떤 형태인지 출력해보면<br>    <img src="/image/kaggle/imdb/random_forest/train_data_features.PNG"><br>    (25000x5000) 크기의 행렬로 구성된 것을 확인할 수 있다<br>    이는 <b>25000개의 데이터가 각각 5000개의 특징값을 가지는<br>    벡터</b>로 표현되어 있다는 뜻이다<br>    <br><br>    데이터를 모델에 적용하기 전에<br>    학습 데이터 일부를 검증 데이터로 만들어두자<br>    <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">TEST_SIZE = <span class="number">0.2</span></span><br><span class="line">RANDOM_SEED = <span class="number">42</span></span><br><span class="line"></span><br><span class="line">train_input, eval_input, train_label, eval_label =</span><br><span class="line"> train_test_split(train_data_features,y,</span><br><span class="line">                  test_size=TEST_SIZE,random_state=RANDOM_SEED)</span><br></pre></td></tr></table></figure><br>    이제 학습 데이터를 사용해 <font color="hotpink"><b>모델 학습 과정</b></font>을 수행한다<br>    랜덤 포레스트는<br>    sklearn 라이브러리의 <font color="blue"><b>RandomForestClassifier</b></font> 객체를 사용해 구현한다<br>    해당 모델은 sklearn 라이브러리의 <b>ensemble 모듈</b>안에 있다<br>    모델을 생성한 후 학습 데이터를 적용해 학습시키자 :)<br>    <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.ensemble <span class="keyword">import</span> RandomForestClassifier</span><br><span class="line"></span><br><span class="line"><span class="comment"># 랜덤 포레스트 분류기에 100개의 의사결정 트리를 사용</span></span><br><span class="line">forest = RandomForestClassifier(n_estimators=<span class="number">100</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 단어 묶음을 벡터화한 데이터와 정답 데이터를 가지고 학습 시작</span></span><br><span class="line">forest.fit(train_input,train_label)</span><br></pre></td></tr></table></figure><br>    다음으로 검증 데이터로 모델을 검증한다<br>    <font size="2">Accuracy: 0.848400</font><br>    <br><br>    데이터를 제출해보자<br>    <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">TEST_CLEAN_DATA = <span class="string">'testData.tsv'</span></span><br><span class="line"></span><br><span class="line">test_data = pd.read_csv(<span class="string">'./data_in/testData.tsv'</span>, delimiter=<span class="string">"\t"</span>)</span><br><span class="line"></span><br><span class="line">test_reviews = list(test_data[<span class="string">'review'</span>])</span><br><span class="line">ids = list(test_data[<span class="string">'id'</span>])</span><br><span class="line">test_data_features = vectorizer.transform(test_reviews)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(DATA_OUT_PATH):</span><br><span class="line">os.makedirs(DATA_OUT_PATH)</span><br><span class="line"></span><br><span class="line">result = forest.predict(test_data_features)</span><br><span class="line"></span><br><span class="line">output= pd.DataFrame(&#123;<span class="string">"sentiment"</span>:result&#125;)</span><br><span class="line">output.to_csv(DATA_OUT_PATH + <span class="string">"Bag_of_Words_model.csv"</span>,index=<span class="keyword">False</span>,quoting=<span class="number">3</span>)</span><br></pre></td></tr></table></figure><br>  <img src="/image/kaggle/imdb/random_forest/result.PNG"><br>  </div><br></div></div></font>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="https://NAEJINHJ.github.com/2019/03/03/random-Forest/" data-id="cjte6ervx00209sjjkg0iwcxh" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+    
+    </section>
+
+
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>follow:</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="twitter" href="https://www.twitter.com" target="_blank" rel="noopener">
+                        <i class="icon fa fa-twitter"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="facebook" href="https://www.facebook.com" target="_blank" rel="noopener">
+                        <i class="icon fa fa-facebook"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="google-plus" href="https://www.google.co.kr" target="_blank" rel="noopener">
+                        <i class="icon fa fa-google-plus"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/NAEJINHJ/naejinhj.github.io.git" target="_blank" rel="noopener">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2019/03/03/chatbot_data_analy/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">newer</strong>
+        <p class="article-nav-title">
+        
+            딥러닝 모델을 통한 챗봇 만들기 : 데이터 분석
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/2019/03/02/imdb-word2vec/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">older</strong>
+        <p class="article-nav-title">Bag of Words Meets Bags of Popcorn : word2vec</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">recents</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/03/14/quora_data_analy_and_xgboost_model/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/image/kaggle/quora/quora_descript.PNG)" alt="Quora Question Pairs : 텍스트 유사도 분석 - 분석/XGboostModel" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Project/">Project</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/Project/Kaggle/">Kaggle</a></p>
+                            <p class="item-title"><a href="/2019/03/14/quora_data_analy_and_xgboost_model/" class="title">Quora Question Pairs : 텍스트 유사도 분석 - 분석/XGboostModel</a></p>
+                            <p class="item-date"><time datetime="2019-03-13T15:25:42.876Z" itemprop="datePublished">2019-03-14</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/03/09/botframework-chatbot/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/image/NLP/botframework/macaroonbot.gif)" alt="마카롱 주문 챗봇 with Bot Framework" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Project/">Project</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/Project/NLP/">NLP</a></p>
+                            <p class="item-title"><a href="/2019/03/09/botframework-chatbot/" class="title">마카롱 주문 챗봇 with Bot Framework</a></p>
+                            <p class="item-date"><time datetime="2019-03-09T06:57:25.514Z" itemprop="datePublished">2019-03-09</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/03/07/chatbot-modeling/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/image/NLP/chatbot/chatbot.PNG)" alt="딥러닝 모델을 통한 챗봇 만들기 : 모델링" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/BIGDATA/">BIGDATA</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/BIGDATA/NLP/">NLP</a></p>
+                            <p class="item-title"><a href="/2019/03/07/chatbot-modeling/" class="title">딥러닝 모델을 통한 챗봇 만들기 : 모델링</a></p>
+                            <p class="item-date"><time datetime="2019-03-07T02:58:59.337Z" itemprop="datePublished">2019-03-07</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/03/03/chatbot_data_analy/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/image/NLP/chatbot/chatbot.PNG)" alt="딥러닝 모델을 통한 챗봇 만들기 : 데이터 분석" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/BIGDATA/">BIGDATA</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/BIGDATA/NLP/">NLP</a></p>
+                            <p class="item-title"><a href="/2019/03/03/chatbot_data_analy/" class="title">딥러닝 모델을 통한 챗봇 만들기 : 데이터 분석</a></p>
+                            <p class="item-date"><time datetime="2019-03-02T16:09:29.346Z" itemprop="datePublished">2019-03-03</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/03/03/random-Forest/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/image/NLP/kaggle_BOW.PNG)" alt="Bag of Words Meets Bags of Popcorn : Random Forest" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Project/">Project</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/Project/Kaggle/">Kaggle</a></p>
+                            <p class="item-title"><a href="/2019/03/03/random-Forest/" class="title">Bag of Words Meets Bags of Popcorn : Random Forest</a></p>
+                            <p class="item-date"><time datetime="2019-03-02T16:08:40.914Z" itemprop="datePublished">2019-03-03</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">categories</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/BIGDATA/">BIGDATA</a><span class="category-list-count">7</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/BIGDATA/DATA/">DATA</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/BIGDATA/Modeling/">Modeling</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/BIGDATA/Modeling/R/">R</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/BIGDATA/NLP/">NLP</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Coding-Test/">Coding Test</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Coding-Test/Python/">Python</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/DB/">DB</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/DB/NoSQL/">NoSQL</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/LOG/">LOG</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Project/">Project</a><span class="category-list-count">11</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Project/BIGDATA/">BIGDATA</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Project/C/">C#</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Project/JAVA/">JAVA</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Project/Kaggle/">Kaggle</a><span class="category-list-count">5</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Project/Kaggle/NLP/">NLP</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Project/NLP/">NLP</a><span class="category-list-count">1</span></li></ul></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">archives</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">2</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">tags</h3>
+        <div class="widget">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/BIGDATA/">BIGDATA</a><span class="tag-list-count">12</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Bot-Framework/">Bot_Framework</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/">C#</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Chatbot/">Chatbot</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DB/">DB</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA/">JAVA</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kaggle/">Kaggle</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LOG/">LOG</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MongoDB/">MongoDB</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NLP/">NLP</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NoSQL/">NoSQL</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PLAN/">PLAN</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Project/">Project</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/R/">R</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/coding-test/">coding test</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/data/">data</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/game/">game</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/log/">log</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/modeling/">modeling</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/test/">test</a><span class="tag-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-float">
+        <h3 class="widget-title">tag cloud</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/BIGDATA/" style="font-size: 20px;">BIGDATA</a> <a href="/tags/Bot-Framework/" style="font-size: 10px;">Bot_Framework</a> <a href="/tags/C/" style="font-size: 10px;">C#</a> <a href="/tags/Chatbot/" style="font-size: 12.86px;">Chatbot</a> <a href="/tags/DB/" style="font-size: 10px;">DB</a> <a href="/tags/JAVA/" style="font-size: 10px;">JAVA</a> <a href="/tags/Kaggle/" style="font-size: 14.29px;">Kaggle</a> <a href="/tags/LOG/" style="font-size: 10px;">LOG</a> <a href="/tags/MongoDB/" style="font-size: 10px;">MongoDB</a> <a href="/tags/NLP/" style="font-size: 17.14px;">NLP</a> <a href="/tags/NoSQL/" style="font-size: 10px;">NoSQL</a> <a href="/tags/PLAN/" style="font-size: 10px;">PLAN</a> <a href="/tags/Project/" style="font-size: 14.29px;">Project</a> <a href="/tags/R/" style="font-size: 14.29px;">R</a> <a href="/tags/coding-test/" style="font-size: 10px;">coding test</a> <a href="/tags/data/" style="font-size: 10px;">data</a> <a href="/tags/game/" style="font-size: 11.43px;">game</a> <a href="/tags/log/" style="font-size: 10px;">log</a> <a href="/tags/modeling/" style="font-size: 15.71px;">modeling</a> <a href="/tags/python/" style="font-size: 18.57px;">python</a> <a href="/tags/test/" style="font-size: 10px;">test</a>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">links</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+            
+        
+    </div>
+</aside>
+
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                  <a href="/" style="font-size:20px;color:#fff; text-decoration: none;">NA'rchive</a>
+                </h1>
+                <p>&copy; 2019 Hyejin</p>
+                <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+            </div>
+            <div class="footer-plugins">
+              
+    
+
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+        
+    
+    <script>
+    var disqus_shortname = 'hexo-theme-hueman';
+    
+    
+    var disqus_url = 'https://NAEJINHJ.github.com/2019/03/03/random-Forest/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>
